@@ -49,12 +49,21 @@ class Display
 
 		// Create the page itself
 		$class = '\\Page\\'.$pageName;
+		/* @var $page \SmartWork\Page */
 		$page = new $class();
 
 		if ($page->getTemplate())
 		{
 			// Create the page header
-			$header = new \SmartWork\Page\Header($page->getTemplate());
+			if (class_exists('\\Page\\Header'))
+			{
+				$header = new \Page\Header($page->getTemplate());
+			}
+			else
+			{
+				$header = new \SmartWork\Page\Header($page->getTemplate());
+			}
+
 			$header->process();
 		}
 
