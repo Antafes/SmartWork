@@ -22,9 +22,9 @@ class Header extends \SmartWork\Page
 	/**
 	 * Constructor
 	 *
-	 * @param \Template $template
+	 * @param \SmartWork\Template $template
 	 */
-	public function __construct($template)
+	public function __construct(\SmartWork\Template $template)
 	{
 		$this->template = $template;
 	}
@@ -63,7 +63,7 @@ class Header extends \SmartWork\Page
 	{
 		if ($_SESSION['userId'])
 		{
-			$user = \User::getUserById($_SESSION['userId']);
+			$user = \SmartWork\User::getUserById($_SESSION['userId']);
 			$this->template->assign('isAdmin', $user->getAdmin());
 		}
 	}
