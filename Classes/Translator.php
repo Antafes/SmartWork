@@ -115,7 +115,7 @@ class Translator
 
 		foreach ($languages as $language)
 		{
-			$this->languages[$language['languageId']] = \Model\Language::loadById(
+			$this->languages[$language['languageId']] = \SmartWork\Model\Language::loadById(
 				$language['languageId']
 			);
 		}

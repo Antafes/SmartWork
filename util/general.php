@@ -40,9 +40,12 @@ function classLoad($name)
 
 	$class = array_pop($pieces);
 
-	$dir .= implode('/', $pieces) . '/';
+	if ($pieces)
+	{
+		$dir .= implode('/', $pieces) . '/';
+	}
 
-	if(file_exists($dir . $class .'.php'))
+	if(file_exists($dir . $class . '.php'))
 	{
 		require_once($dir . $class . '.php');
 		return true;

@@ -38,7 +38,7 @@ class Template
 	 */
 	function __construct()
 	{
-		$this->smarty = new Smarty();
+		$this->smarty = new \Smarty();
 		$this->smarty->addTemplateDir(array(
 			'templates/',
 			__DIR__.'/../templates/',

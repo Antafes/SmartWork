@@ -31,7 +31,7 @@ class Display
 	 *
 	 * @param array $unallowedPages
 	 */
-	function __construct($unallowedPages)
+	function __construct($unallowedPages = array())
 	{
 		$this->unallowedPages += $unallowedPages;
 	}
@@ -54,7 +54,7 @@ class Display
 		if ($page->getTemplate())
 		{
 			// Create the page header
-			$header = new \Page\Header($page->getTemplate());
+			$header = new \SmartWork\Page\Header($page->getTemplate());
 			$header->process();
 		}
 

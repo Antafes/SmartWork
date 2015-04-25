@@ -29,7 +29,7 @@ abstract class Page
 	 */
 	function __construct($template)
 	{
-		$this->template = new \Template();
+		$this->template = new \SmartWork\Template();
 		$this->template->setTemplate($template);
 	}
 
