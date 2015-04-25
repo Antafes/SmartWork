@@ -207,7 +207,7 @@ class Translator
 	 */
 	public function getTranslation($key)
 	{
-		$this->gt($key);
+		return $this->gt($key);
 	}
 
 	/**
