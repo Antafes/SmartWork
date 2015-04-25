@@ -25,7 +25,7 @@
  * {load_css file="jquery-1.5.1"}
  * {load_css script="$('#test').submit();"}
  * </pre>
- * @author Neithan
+ * @author friend8 <map@wafriv.de>
  * @version  1.0
  * @param array $params
  * @param Smarty_Internal_Template $template

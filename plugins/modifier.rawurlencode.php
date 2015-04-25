@@ -16,7 +16,7 @@
  * Name:     rawurlencode<br>
  * Purpose:  encode a string with rawurlencode
  *
- * @author Neithan
+ * @author friend8 <map@wafriv.de>
  * @param number $string input number
  * @return string formatted string
  */

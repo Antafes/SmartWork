@@ -21,7 +21,7 @@
  * <pre>
  * {include_js}
  * </pre>
- * @author Neithan
+ * @author friend8 <map@wafriv.de>
  * @version  1.0
  * @param array $params
  * @param Smarty_Internal_Template $template

@@ -16,7 +16,7 @@
  * Name:     json_encode<br>
  * Purpose:  encode an array or an object as a json string
  *
- * @author Neithan
+ * @author friend8 <map@wafriv.de>
  * @param string $format format string
  * @return string formatted string
  */

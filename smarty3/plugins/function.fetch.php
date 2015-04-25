@@ -1,9 +1,12 @@
 <?php
 /**
+ * Part of the SmartWork framework.
  * Smarty plugin
  *
- * @package Smarty
- * @subpackage PluginsFunction
+ * @package    SmartWork
+ * @subpackage plugins
+ * @author     friend8 <map@wafriv.de>
+ * @license    https://www.gnu.org/licenses/lgpl.html LGPLv3
  */
 
 /**
@@ -26,17 +29,17 @@ function smarty_function_fetch($params, $template)
         trigger_error("[plugin] fetch parameter 'file' cannot be empty",E_USER_NOTICE);
         return;
     }
-    
+
     // strip file protocol
     if (stripos($params['file'], 'file://') === 0) {
         $params['file'] = substr($params['file'], 7);
     }
-    
+
     $protocol = strpos($params['file'], '://');
     if ($protocol !== false) {
         $protocol = strtolower(substr($params['file'], 0, $protocol));
     }
-    
+
     if (isset($template->smarty->security_policy)) {
         if ($protocol) {
             // remote resource (or php stream, …)

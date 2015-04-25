@@ -24,7 +24,7 @@
  * <pre>
  * {is_array var=$variable assign="check_result"}
  * </pre>
- * @author Neithan
+ * @author friend8 <map@wafriv.de>
  * @version  1.0
  * @param array
  * @param Smarty

@@ -16,7 +16,7 @@
  * Name:     sprintf<br>
  * Purpose:  format strings via sprintf
  *
- * @author Neithan
+ * @author friend8 <map@wafriv.de>
  * @param string $format format string
  * @return string formatted string
  */

@@ -16,7 +16,7 @@
  * Name:     count<br>
  * Purpose:  count the number of items in an array
  *
- * @author Neithan
+ * @author friend8 <map@wafriv.de>
  * @param array $data The array to count the items
  * @return integer The amount of items in the array
  */

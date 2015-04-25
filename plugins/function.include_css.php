@@ -21,7 +21,7 @@
  * <pre>
  * {include_css}
  * </pre>
- * @author Neithan
+ * @author friend8 <map@wafriv.de>
  * @version  1.0
  * @param array $params
  * @param Smarty_Internal_Template $template
@@ -32,14 +32,14 @@ function smarty_function_include_css($params, $template)
 	{
 		foreach ($_SESSION['css']['file'] as $file)
 		{
-			$path = 'css/'.$file;
+			$path = 'css/' . $file . '.css';
 
 			if (!file_exists($path))
 			{
-				$path = $GLOBALS['config']['dir_ws_system'].'/css/'.$file;
+				$path = $GLOBALS['config']['dir_ws_system'].'/css/' . $file . '.css';
 			}
 
-			echo '<link rel="stylesheet" type="text/css" href="'.$path.'.css" />';
+			echo '<link rel="stylesheet" type="text/css" href="'.$path.'" />';
 		}
 	}
 

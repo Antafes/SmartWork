@@ -16,7 +16,7 @@
  * Name:     number_format<br>
  * Purpose:  format numbers with number_format
  *
- * @author Neithan
+ * @author friend8 <map@wafriv.de>
  * @param number $number input number
  * @param int $decimals number of decimals
  * @param string $decimal decimal point
