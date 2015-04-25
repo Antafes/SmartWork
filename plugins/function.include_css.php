@@ -36,7 +36,7 @@ function smarty_function_include_css($params, $template)
 
 			if (!file_exists($path))
 			{
-				$path = $GLOBALS['config']['dir_ws_system'].'/css/' . $file . '.css';
+				$path = $GLOBALS['config']['dir_ws_system'].'/Css/' . $file . '.css';
 			}
 
 			echo '<link rel="stylesheet" type="text/css" href="'.$path.'" />';
