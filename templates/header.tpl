@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="{$languageCode}">
 	<head>
-		<title>{$translator->getTranslation('title')}</title>
+		<title>{$translator->gt('title')}</title>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width">
 		<link rel="icon" type="image/vnd.microsoft.icon" href="favicon.ico">

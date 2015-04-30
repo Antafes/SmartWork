@@ -87,7 +87,7 @@ class Template
 	 */
 	public function assign($name, $value)
 	{
-		$this->smarty->assign($name, $this->translator->getTranslation($value));
+		$this->smarty->assign($name, $this->translator->gt($value));
 	}
 
 	/**

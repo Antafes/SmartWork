@@ -193,7 +193,7 @@ class Translator
 	 */
 	public function getCurrentLanguageName()
 	{
-		return $this->getTranslation($this->languages[$this->currentLanguage]->getLanguage());
+		return $this->gt($this->languages[$this->currentLanguage]->getLanguage());
 	}
 
 	/**
@@ -226,7 +226,7 @@ class Translator
 		if (is_array($key))
 		{
 			foreach ($key as &$item)
-				$item = $this->getTranslation($item);
+				$item = $this->gt($item);
 
 			return $key;
 		}
