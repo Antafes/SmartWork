@@ -52,15 +52,21 @@ function smarty_function_include_js($params, $template)
 		echo '<script language="javascript" type="text/javascript">';
 
 		if ($_SESSION['scripts']['script'])
+		{
 			foreach ($_SESSION['scripts']['script'] as $script)
+			{
 				echo $script;
+			}
+		}
 
 		if ($_SESSION['scripts']['ready_script'])
 		{
 			echo '$(function() {';
 
 			foreach ($_SESSION['scripts']['ready_script'] as $script)
+			{
 				echo $script;
+			}
 
 			echo '});';
 		}

@@ -32,20 +32,45 @@
  */
 function smarty_function_load_js($params, Smarty_Internal_Template $template)
 {
-	if (!in_array('file', array_keys($params)) && !in_array('script', array_keys($params)))
-		$template->smarty->trigger_error('load_js: missing "file" or "script" parameter');
+	if (!in_array('file', array_keys($params))
+		&& !in_array('script', array_keys($params))
+		&& !in_array('ready_script', array_keys($params)))
+	{
+		trigger_error('load_js: missing "file", "script" or "ready_script" parameter');
+	}
 
-	if (in_array('file', array_keys($params)) && in_array('script', array_keys($params)))
-		$template->smarty->trigger_error('load_js: only "file" or "script" parameter allowed');
+	if (in_array('file', array_keys($params))
+		&& in_array('script', array_keys($params))
+		&& !in_array('ready_script', array_keys($params)))
+	{
+		trigger_error('load_js: only "file", "script" or "ready_script" parameter allowed');
+	}
 
 	if (!is_array($_SESSION['scripts']['file']))
+	{
 		$_SESSION['scripts']['file'] = array();
+	}
 
 	if (!is_array($_SESSION['scripts']['script']))
+	{
 		$_SESSION['scripts']['script'] = array();
+	}
+
+	if (!is_array($_SESSION['scripts']['ready_script']))
+	{
+		$_SESSION['scripts']['ready_script'] = array();
+	}
 
 	if ($params['file'] && !in_array($params['file'], $_SESSION['scripts']['file']))
+	{
 		$_SESSION['scripts']['file'][] = $params['file'];
+	}
 	elseif ($params['script'])
-		$_SESSION['scripts']['script'][] = $params['scipt'];
+	{
+		$_SESSION['scripts']['script'][] = $params['script'];
+	}
+	elseif ($params['ready_script'])
+	{
+		$_SESSION['scripts']['ready_script'][] = $params['ready_script'];
+	}
 }
