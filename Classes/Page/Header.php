@@ -40,11 +40,11 @@ class Header extends \SmartWork\Page
 	{
 		// Add basic CSS files
 		$this->template->loadCss('common');
-		$this->template->loadCss('jquery-ui-1.11.0.custom');
+		$this->template->loadCss('jquery-ui');
 
 		// Add JS files
-		$this->template->loadJs('jquery-2.1.1');
-		$this->template->loadJs('jquery-ui-1.11.0.custom');
+		$this->template->loadJs('jquery-2.1.4');
+		$this->template->loadJs('jquery-ui');
 
 		// Add the language entries for JavaScripts
 		$this->template->assign(
