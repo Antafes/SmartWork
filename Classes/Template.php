@@ -78,7 +78,6 @@ class Template
 
 	/**
 	 * Assign a value with a name to the smarty instance.
-	 * All values are pre processed by the translator.
 	 *
 	 * @param string $name
 	 * @param string $value
@@ -87,7 +86,7 @@ class Template
 	 */
 	public function assign($name, $value)
 	{
-		$this->smarty->assign($name, $this->translator->gt($value));
+		$this->smarty->assign($name, $value);
 	}
 
 	/**

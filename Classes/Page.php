@@ -54,6 +54,19 @@ abstract class Page
 	}
 
 	/**
+	 * Assign a value with a name to the smarty instance.
+	 *
+	 * @param string $name
+	 * @param mixed  $value
+	 *
+	 * @return void
+	 */
+	public function assign($name, $value)
+	{
+		$this->getTemplate()->assign($name, $value);
+	}
+
+	/**
 	 * Process possibly entered data of the page.
 	 */
 	abstract public function process();
