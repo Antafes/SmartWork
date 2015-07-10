@@ -107,6 +107,7 @@ class User
 				AND !deleted
 		';
 		$userData = query($sql);
+
 		$passwordParts = explode('$', $userData['password']);
 
 		$encPassword = self::encryptPassword($password, $passwordParts['2']);
@@ -207,7 +208,8 @@ class User
 	 */
 	protected static function encryptPassword($password, $salt)
 	{
-		return '$m5$'.$salt.'$'.md5($password.'-'.$salt);
+		$saltedPassword = $salt ? $password.'-'.$salt : $password;
+		return '$m5$'.$salt.'$'.md5($saltedPassword);
 	}
 
 	/**
