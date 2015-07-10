@@ -34,6 +34,10 @@ $GLOBALS['config']['dir_ws_migrations'] = '';
 //mail
 $GLOBALS['mail']['sender'] = 'test@test.org';
 
+$GLOBALS['config']['unAllowedPages'] = array(
+	'Header',
+);
+
 //autoloader
 spl_autoload_register('classLoad');
 

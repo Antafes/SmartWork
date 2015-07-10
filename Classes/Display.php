@@ -22,9 +22,7 @@ class Display
 	 *
 	 * @var array
 	 */
-	protected $unallowedPages = array(
-		'Header',
-	);
+	protected $unallowedPages = array();
 
 	/**
 	 * A list of unallowed pages which will be added to the existing list.
