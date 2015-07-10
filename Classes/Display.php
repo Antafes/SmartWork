@@ -78,10 +78,26 @@ class Display
 	 */
 	protected function checkPage($pageName)
 	{
+		if ($GLOBALS['hooks']['Display']['checkPage'])
+		{
+			foreach ($GLOBALS['hooks']['Display']['checkPage'] as $hook)
+			{
+				$result = $hook($pageName);
+
+				if ($result)
+				{
+					$pageName = $result;
+					break;
+				}
+			}
+		}
+
 		if (in_array($pageName, $this->unallowedPages))
+		{
 			return 'Index';
-		else
-			return $pageName;
+		}
+
+		return $pageName;
 	}
 
 	/**
