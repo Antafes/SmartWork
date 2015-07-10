@@ -215,10 +215,11 @@ class Translator
 	 * returned.
 	 *
 	 * @param string $key
+	 * @param array  $arguments
 	 *
 	 * @return mixed
 	 */
-	public function gt($key)
+	public function gt($key, $arguments = array())
 	{
 		if (is_object($key) || is_bool($key) || is_float($key))
 			return $key;
@@ -232,9 +233,34 @@ class Translator
 		}
 
 		if (array_key_exists($key, $this->translations[$this->currentLanguage]))
-			return $this->translations[$this->currentLanguage][$key];
+			return $this->replace($this->translations[$this->currentLanguage][$key], $arguments);
 		else
 			return $key;
+	}
+
+	/**
+	 * Replace placeholder with the given arguments.
+	 *
+	 * @param string $translation
+	 * @param array  $arguments
+	 *
+	 * @return string
+	 */
+	protected function replace($translation, $arguments)
+	{
+		if (!$arguments)
+		{
+			return $translation;
+		}
+
+		$needle = array_map(
+			function ($entry) {
+				return '##'.strtoupper($entry).'##';
+			},
+			array_keys($arguments)
+		);
+
+		return str_replace($needle, $arguments, $translation);
 	}
 
 	/**
