@@ -39,13 +39,28 @@ class Display
 	protected $unallowedPages = array();
 
 	/**
+	 * A list of pages which are accessible without login.
+	 *
+	 * @var array
+	 */
+	protected $pagesWithoutLogin = array(
+		'Register',
+		'Login',
+		'Imprint',
+		'LostPassword',
+	);
+
+	/**
 	 * A list of unallowed pages which will be added to the existing list.
 	 *
 	 * @param array $unallowedPages
 	 */
 	function __construct($unallowedPages = array())
 	{
-		$this->unallowedPages += $unallowedPages;
+		$this->unallowedPages = array_merge($unallowedPages, $this->unallowedPages);
+		$this->pagesWithoutLogin = array_merge(
+			$GLOBALS['config']['Display']['pagesWithoutLogin'], $this->pagesWithoutLogin
+		);
 	}
 
 	/**
@@ -109,6 +124,11 @@ class Display
 		if (in_array($pageName, $this->unallowedPages))
 		{
 			return 'Index';
+		}
+
+		if (!$_SESSION['userId'] && !in_array($pageName, $this->pagesWithoutLogin))
+		{
+			$pageName = 'Login';
 		}
 
 		return $pageName;

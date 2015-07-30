@@ -40,11 +40,4 @@ if ($_GET['language'])
 	redirect('index.php?page='.$page);
 }
 
-if (!$_SESSION['userId'] && $page != 'Register' && $page != 'Imprint' && $page != 'LostPassword')
-{
-	$display->showPage('Login');
-}
-else
-{
-	$display->showPage($page);
-}
+$display->showPage($page);
