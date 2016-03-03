@@ -187,7 +187,7 @@ class Translator
 		return $this->currentLanguage;
 	}
 
-	/**
+    /**
 	 * Set the language of the user
 	 *
 	 * @param integer $currentLanguage
@@ -199,6 +199,18 @@ class Translator
 		$this->currentLanguage = $currentLanguage;
 		$this->setUserLanguage($this->currentLanguage);
 	}
+
+    /**
+     * Get the language of the user as object
+     *
+     * @return \SmartWork\Model\Language
+     */
+    public function getCurrentLanguageObject()
+    {
+        $languageId = $this->getCurrentLanguage();
+
+        return $this->languages[$languageId];
+    }
 
 	/**
 	 * Get the translated name for the users language

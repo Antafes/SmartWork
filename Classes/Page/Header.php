@@ -62,8 +62,11 @@ class Header extends \SmartWork\Page
 
 		// Add the language entries for JavaScripts
 		$this->template->assign(
-			'translations', json_encode($this->template->getTranslator()->getAsArray())
-		);
+            array(
+                'translations' => json_encode($this->template->getTranslator()->getAsArray()),
+                'languageCode' => $this->template->getTranslator()->getCurrentLanguageObject()->getIso2code(),
+            )
+        );
 
 		$this->createMenu();
 	}

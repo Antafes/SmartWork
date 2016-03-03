@@ -65,9 +65,7 @@ class Language extends \SmartWork\Model
 		$data = query($sql);
 
 		$language = new self();
-		$language->languageId = $data['languageId'];
-		$language->language   = $data['language'];
-		$language->iso2code   = $data['iso2code'];
+        $language->fill($data);
 
 		return $language;
 	}
@@ -87,11 +85,8 @@ class Language extends \SmartWork\Model
 			WHERE languageId = '.\sqlval($id).'
 		';
 		$data = query($sql);
-
 		$language = new self();
-		$language->languageId = intval($data['languageId']);
-		$language->language   = $data['language'];
-		$language->iso2code   = $data['iso2code'];
+        $language->fill($data);
 
 		return $language;
 	}

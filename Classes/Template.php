@@ -93,12 +93,12 @@ class Template
 	/**
 	 * Assign a value with a name to the smarty instance.
 	 *
-	 * @param string $name
-	 * @param string $value
+	 * @param array|string $name
+	 * @param string       $value
 	 *
 	 * @return void
 	 */
-	public function assign($name, $value)
+	public function assign($name, $value = null)
 	{
 		$this->smarty->assign($name, $value);
 	}
