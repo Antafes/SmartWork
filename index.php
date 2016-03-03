@@ -25,7 +25,8 @@ require_once(__DIR__.'/util/mysql.php');
 
 session_start();
 
-$display = new \SmartWork\Display($GLOBALS['config']['unAllowedPages']);
+$globalConfig = \SmartWork\GlobalConfig::getInstance();
+$display = new \SmartWork\Display($globalConfig->getConfig('unAllowedPages'));
 
 $page = $_GET['page'];
 

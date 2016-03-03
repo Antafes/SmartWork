@@ -222,7 +222,9 @@ function connect()
 
 	if (!is_object($mysql))
 	{
-		$mysql = new mysqli($GLOBALS['db']['server'], $GLOBALS['db']['user'], $GLOBALS['db']['password']);
+        $globalConfig = \SmartWork\GlobalConfig::getInstance();
+        $dbConfig = $globalConfig->getGlobal('db');
+		$mysql = new mysqli($dbConfig['server'], $dbConfig['user'], $dbConfig['password']);
 
 		if ($mysql->connect_error)
 		{
@@ -231,15 +233,17 @@ function connect()
 		}
 		else
 		{
-			$mysql->set_charset($GLOBALS['db']['charset']);
-			$mysql->select_db($GLOBALS['db']['db']);
+			$mysql->set_charset($dbConfig['charset']);
+			$mysql->select_db($dbConfig['db']);
 		}
 	}
 
 	$timezone = $mysql->query('SELECT @@session.time_zone');
 
 	if ($timezone == 'SYSTEM')
+    {
 		$mysql->query('SET time_zone = "+00:00"');
+    }
 
 	return $mysql;
 }
@@ -255,17 +259,24 @@ function connect()
  */
 function migration_manager($post)
 {
-	$migration_files_dir = $GLOBALS['config']['migrations_dir'];
-	$web_path = $GLOBALS['config']['dir_ws_migrations'];
+    $globalConfig = \SmartWork\GlobalConfig::getInstance();
+	$migration_files_dir = $globalConfig->getConfig('migrations_dir');
+	$web_path = $globalConfig->getConfig('dir_ws_migrations');
 
 	$migration_files = array();
 	$dh = opendir($migration_files_dir);
 	if (!$dh)
+    {
 		die('Migration files directory not found.');
+    }
 
 	while (($filename = readdir($dh)) !== false)
+    {
 		if (substr($filename, -4) == '.php')
+        {
 			$migration_files[] = $filename;
+        }
+    }
 
 	closedir($dh);
 	natsort($migration_files);

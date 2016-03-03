@@ -41,6 +41,7 @@
  */
 function smarty_function_include_css($params, $template)
 {
+    $globalConfig = \SmartWork\GlobalConfig::getInstance();
 	if ($_SESSION['css']['file'])
 	{
 		foreach ($_SESSION['css']['file'] as $file)
@@ -49,7 +50,7 @@ function smarty_function_include_css($params, $template)
 
 			if (!file_exists($path))
 			{
-				$path = $GLOBALS['config']['dir_ws_system'].'/Css/' . $file . '.css';
+				$path = $globalConfig->getConfig('dir_ws_system').'/Css/' . $file . '.css';
 			}
 
 			echo '<link rel="stylesheet" type="text/css" href="'.$path.'" />';

@@ -76,7 +76,7 @@ class Translator
 		if (!self::$translator)
 		{
 			$translator = new self();
-			$translator->setCurrentLanguage($_COOKIE['esLanguage']);
+			$translator->setCurrentLanguage($_COOKIE['language']);
 			self::$translator = $translator;
 		}
 
@@ -114,7 +114,8 @@ class Translator
 	}
 
 	/**
-	 * Fetches all languages and adds them as EsModelLanguage to the language list.
+	 * Fetches all languages and adds them as \SmartWork\Model\Language to the
+     * language list.
 	 *
 	 * @return void
 	 */
@@ -142,7 +143,7 @@ class Translator
 	 */
 	protected function fillTranslations()
 	{
-		/* @var EsModelLanguage $language */
+		/* @var \SmartWork\Model\Language $language */
 		foreach ($this->languages as $language)
 		{
 			$sql = '
@@ -296,7 +297,7 @@ class Translator
 	 */
 	protected function getUserLanguage()
 	{
-		$languageId = $_COOKIE['esLanguage'];
+		$languageId = $_COOKIE['language'];
 
 		if (!$languageId)
 		{
@@ -317,7 +318,7 @@ class Translator
 	 */
 	protected function setUserLanguage($languageId)
 	{
-		setcookie('esLanguage', $languageId, time() + 86400);
+		setcookie('language', $languageId, time() + 86400);
 	}
 
 	/**

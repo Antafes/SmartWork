@@ -31,7 +31,14 @@ namespace SmartWork;
  */
 class Display
 {
-	/**
+    /**
+     * The global config object.
+     *
+     * @var \SmartWork\GlobalConfig
+     */
+    protected $globalConfig;
+
+    /**
 	 * A list of pages which are not accessible.
 	 *
 	 * @var array
@@ -57,10 +64,16 @@ class Display
 	 */
 	function __construct($unallowedPages = array())
 	{
+        $this->globalConfig = GlobalConfig::getInstance();
 		$this->unallowedPages = array_merge($unallowedPages, $this->unallowedPages);
-		$this->pagesWithoutLogin = array_merge(
-			$GLOBALS['config']['Display']['pagesWithoutLogin'], $this->pagesWithoutLogin
-		);
+        $this->pagesWithoutLogin = array_merge(
+            $this->globalConfig->getConfig(
+                array(
+                    'Display' => 'pagesWithoutLogin',
+                )
+            ),
+            $this->pagesWithoutLogin
+        );
 	}
 
 	/**
@@ -107,9 +120,15 @@ class Display
 	 */
 	protected function checkPage($pageName)
 	{
-		if ($GLOBALS['hooks']['Display']['checkPage'])
+        $checkPageHooks = $this->globalConfig->getHook(
+            array(
+                'Display' => 'checkPage',
+            )
+        );
+
+		if ($checkPageHooks)
 		{
-			foreach ($GLOBALS['hooks']['Display']['checkPage'] as $hook)
+			foreach ($checkPageHooks as $hook)
 			{
 				$result = $hook($pageName);
 

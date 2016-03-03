@@ -41,9 +41,13 @@
  */
 function smarty_function_include_js($params, $template)
 {
+    $globalConfig = \SmartWork\GlobalConfig::getInstance();
 	$minified = '';
-	if (!$GLOBALS['config']['debug'])
+
+	if (!$globalConfig->getConfig('debug'))
+    {
 		$minified = '.min';
+    }
 
 	if ($_SESSION['scripts']['file'])
 	{
@@ -53,7 +57,7 @@ function smarty_function_include_js($params, $template)
 
 			if (!file_exists($path))
 			{
-				$path = $GLOBALS['config']['dir_ws_system'].'/JavaScripts/'.$file.$minified.'.js';
+				$path = $globalConfig->getConfig('dir_ws_system').'/JavaScripts/'.$file.$minified.'.js';
 			}
 
 			echo '<script language="javascript" type="text/javascript" src="'.$path.'"></script>';
