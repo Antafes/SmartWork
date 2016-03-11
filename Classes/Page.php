@@ -36,7 +36,14 @@ abstract class Page
 	 */
 	protected $template;
 
-	/**
+    /**
+     * Whether to render the template or not
+     *
+     * @var boolean
+     */
+    protected $doRender = true;
+
+    /**
 	 * Constructor
 	 *
 	 * @param string $template
@@ -84,4 +91,26 @@ abstract class Page
 	 * Process possibly entered data of the page.
 	 */
 	abstract public function process();
+
+    /**
+     * Whether the page is called as ajax page
+     *
+     * @return boolean
+     */
+    public function isAjax()
+    {
+        return !!$_REQUEST['ajax'];
+    }
+
+    /**
+     * Echo the ajax response and die.
+     *
+     * @param mixed $response
+     */
+    protected function echoAjaxResponse($response)
+    {
+        header('Content-Type: application/json');
+        echo json_encode($response);
+        die();
+    }
 }

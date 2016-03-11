@@ -92,7 +92,7 @@ class Display
 		/* @var $page \SmartWork\Page */
 		$page = new $class();
 
-		if ($page->getTemplate())
+		if ($page->getTemplate() && !$page->isAjax())
 		{
 			// Create the page header
 			if (class_exists('\\Page\\Header'))
