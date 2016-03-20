@@ -111,6 +111,7 @@ abstract class Page
     {
         header('Content-Type: application/json');
         echo json_encode($response);
+        $this->getTemplate()->clearJsAndCss();
         die();
     }
 }

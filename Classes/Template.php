@@ -181,4 +181,35 @@ class Template
 		if (!in_array($file, $_SESSION['css']['file']))
 			$_SESSION['css']['file'][] = $file;
 	}
+
+    /**
+     * Remove all stored JS and CSS files and inline scripts.
+     *
+     * @return void
+     */
+    public function clearJsAndCss()
+    {
+        $this->clearJs();
+        $this->clearCss();
+    }
+
+    /**
+     * Remove all stored JS files and inline scripts.
+     *
+     * @return void
+     */
+    public function clearJs()
+    {
+        unset($_SESSION['scripts']);
+    }
+
+    /**
+     * Remove all stored CSS files.
+     *
+     * @return void
+     */
+    public function clearCss()
+    {
+        unset($_SESSION['css']);
+    }
 }
