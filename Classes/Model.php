@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of SmartWork.
  *
@@ -34,9 +35,11 @@ abstract class Model
     /**
      * Load the model by a given id.
      *
+     * @param int $id
+     *
      * @return \self
      */
-    public abstract static function loadById($id);
+    public abstract static function loadById(int $id);
 
     /**
      * Get the models properties as array.
@@ -53,7 +56,7 @@ abstract class Model
      *
      * @return void
      */
-    public function fill($data)
+    public function fill(array $data)
     {
         foreach ($data as $key => $value)
         {
@@ -71,7 +74,7 @@ abstract class Model
      *
      * @return mixed
      */
-    protected function castToType($value)
+    protected function castToType(string $value)
     {
         if (is_numeric($value))
         {

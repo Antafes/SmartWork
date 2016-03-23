@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of SmartWork.
  *
@@ -62,7 +63,7 @@ class Display
      *
      * @param array $unallowedPages
      */
-    function __construct($unallowedPages = array())
+    function __construct(array $unallowedPages = array())
     {
         $this->globalConfig = GlobalConfig::getInstance();
         $this->unallowedPages = array_merge($unallowedPages, $this->unallowedPages);
@@ -90,7 +91,7 @@ class Display
      *
      * @return void
      */
-    public function showPage($pageName)
+    public function showPage(string $pageName)
     {
         $pageName = $this->checkPage($pageName);
 
@@ -125,7 +126,7 @@ class Display
      *
      * @return string
      */
-    protected function checkPage($pageName)
+    protected function checkPage(string $pageName): string
     {
         $checkPageHooks = $this->globalConfig->getHook(
             array(
@@ -135,7 +136,7 @@ class Display
 
         if ($checkPageHooks)
         {
-            foreach ($checkPageHooks as $hook)
+            foreach ($checkPageHooks['Display'] as $hook)
             {
                 $result = $hook($pageName);
 
@@ -152,7 +153,7 @@ class Display
             return 'Index';
         }
 
-        if (!$_SESSION['userId'] && !in_array($pageName, $this->pagesWithoutLogin))
+        if ((!array_key_exists('userId', $_SESSION) || !$_SESSION['userId']) && !in_array($pageName, $this->pagesWithoutLogin))
         {
             $pageName = 'Login';
         }
@@ -167,37 +168,49 @@ class Display
      *
      * @return void
      */
-    public function addUnallowedPages($pageNames)
+    public function addUnallowedPages(array $pageNames)
     {
-        if (is_array($pageNames))
-        {
-            $this->unallowedPages += $pageNames;
-        }
-        else
-        {
-            $this->unallowedPages += array($pageNames);
-        }
+        $this->unallowedPages += $pageNames;
+    }
+
+    /**
+     * Add one page to the list of unallowed pages.
+     *
+     * @param string $pageName
+     *
+     * @return void
+     */
+    public function addUnallowedPage(string $pageName)
+    {
+        $this->addUnallowedPages(array($pageName));
     }
 
     /**
      * Remove one or more pages from the list of unallowed pages.
      *
-     * @param array|string $pageNames
+     * @param array $pageNames
      *
      * @return void
      */
-    public function removeUnallowedPages($pageNames)
+    public function removeUnallowedPages(array $pageNames)
     {
-        if (!is_array($pageNames))
-        {
-            $pageNames = array($pageNames);
-        }
-
         foreach ($pageNames as $pageName)
         {
             $index = array_search($pageName, $this->unallowedPages);
             unset($this->unallowedPages[$index]);
         }
+    }
+
+    /**
+     * Remove one page from the list of unallowed pages.
+     *
+     * @param string $pageName
+     *
+     * @return void
+     */
+    public function removeUnallowedPage(string $pageName)
+    {
+        $this->removeUnallowedPages(array($pageName));
     }
 
     /**

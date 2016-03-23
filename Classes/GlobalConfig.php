@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of SmartWork.
  *
@@ -56,7 +57,7 @@ class GlobalConfig
      *
      * @return GlobalConfig
      */
-    public static function getInstance()
+    public static function getInstance(): GlobalConfig
     {
         if (!self::$globalConfig)
         {
@@ -111,7 +112,7 @@ class GlobalConfig
      */
     public function getHook($hook)
     {
-        if (!is_array($this->globals['hooks']))
+        if (!array_key_exists('hooks', $this->globals) || !is_array($this->globals['hooks']))
         {
             $this->globals['hooks'] = array();
         }
@@ -136,7 +137,7 @@ class GlobalConfig
      *
      * @return mixed
      */
-    public function getGlobal($global, $parent = null)
+    public function getGlobal($global, array $parent = null)
     {
         if ($parent == null)
         {
@@ -145,6 +146,11 @@ class GlobalConfig
 
         if (!is_array($global))
         {
+            if (!array_key_exists($global, $parent))
+            {
+                return array();
+            }
+
             return $parent[$global];
         }
 
@@ -152,7 +158,7 @@ class GlobalConfig
 
         foreach ($global as $key => $value)
         {
-            if (!is_array($parent[$key]))
+            if (!array_key_exists($key, $parent) || !is_array($parent[$key]))
             {
                 $parent[$key] = array();
             }

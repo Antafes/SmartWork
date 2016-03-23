@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of SmartWork.
  *
@@ -74,7 +75,7 @@ class User
      *
      * @return \self
      */
-    public static function getUserById($userId)
+	public static function getUserById(int $userId): User
     {
         $sql = '
             SELECT
@@ -110,7 +111,7 @@ class User
      *
      * @return boolean|\self
      */
-    public static function getUser($name, $password)
+	public static function getUser(string $name, string $password)
     {
         $sql = '
             SELECT
@@ -128,7 +129,7 @@ class User
 
         if (strcasecmp($name, $userData['name']) === 0 && $encPassword == $userData['password'])
         {
-            return self::getUserById($userData['userId']);
+			return self::getUserById(intval($userData['userId']));
         }
         else
         {
@@ -143,7 +144,7 @@ class User
      *
      * @return boolean|\self
      */
-    public static function getUserByMail($mail)
+	public static function getUserByMail(string $mail)
     {
         $sql = '
             SELECT `userId`
@@ -166,10 +167,11 @@ class User
      *
      * @param string $name
      * @param string $password
+     * @param string $email
      *
      * @return integer
      */
-    public static function createUser($name, $password, $email)
+	public static function createUser(string $name, string $password, string $email): int
     {
         $sql = '
             INSERT INTO users
@@ -187,7 +189,7 @@ class User
      *
      * @return boolean
      */
-    public static function checkUsername($name)
+	public static function checkUsername(string $name): bool
     {
         $sql = '
             SELECT COUNT(*)
@@ -204,7 +206,7 @@ class User
      *
      * @return boolean
      */
-    public static function checkEmail($email)
+	public static function checkEmail(string $email): bool
     {
         $sql = '
             SELECT COUNT(*)
@@ -222,7 +224,7 @@ class User
      *
      * @return string
      */
-    protected static function encryptPassword($password, $salt)
+	protected static function encryptPassword(string $password, string $salt): string
     {
         $saltedPassword = $salt ? $password . '-' . $salt : $password;
         return '$m5$' . $salt . '$' . md5($saltedPassword);
@@ -233,7 +235,7 @@ class User
      *
      * @return integer
      */
-    public function getUserId()
+	public function getUserId(): int
     {
         return $this->userId;
     }
@@ -243,7 +245,7 @@ class User
      *
      * @return string
      */
-    public function getName()
+	public function getName(): string
     {
         return $this->name;
     }
@@ -253,7 +255,7 @@ class User
      *
      * @return string
      */
-    public function getEmail()
+	public function getEmail(): string
     {
         return $this->email;
     }
@@ -263,7 +265,7 @@ class User
      *
      * @return boolean
      */
-    public function getAdmin()
+	public function getAdmin(): bool
     {
         return $this->admin;
     }
@@ -273,7 +275,7 @@ class User
      *
      * @return boolean
      */
-    public function getStatus()
+	public function getStatus(): bool
     {
         return $this->active;
     }
@@ -283,8 +285,13 @@ class User
      *
      * @return integer
      */
-    public function getLanguageId()
+	public function getLanguageId(): int
     {
+        if (empty($this->languageId))
+        {
+            return 1;
+        }
+
         return $this->languageId;
     }
 
@@ -295,7 +302,7 @@ class User
      *
      * @return void
      */
-    public function setName($name)
+	public function setName(string $name)
     {
         $this->name = $name;
         $sql = '
@@ -313,7 +320,7 @@ class User
      *
      * @return void
      */
-    public function setPassword($password)
+	public function setPassword(string $password)
     {
         $passwordParts = explode('$', $this->password);
         $this->password = self::encryptPassword($password, $passwordParts[2]);
@@ -332,7 +339,7 @@ class User
      *
      * @return void
      */
-    public function setEmail($email)
+	public function setEmail(string $email)
     {
         $this->email = $email;
         $sql = '
@@ -366,31 +373,13 @@ class User
      *
      * @return void
      */
-    public function setAdmin($admin)
+	public function setAdmin(bool $admin)
     {
         $this->admin = $admin;
         $sql = '
             UPDATE users
             SET admin = ' . Database::sqlval($admin ? 1 : 0) . '
             WHERE userId = ' . Database::sqlval($this->userId) . '
-        ';
-        Database::query($sql);
-    }
-
-    /**
-     * Set the users language.
-     *
-     * @param integer $languageId
-     *
-     * @return void
-     */
-    public function setLanguageId($languageId)
-    {
-        $this->languageId = $languageId;
-        $sql = '
-            UPDATE users
-            SET `languageId` = ' . Database::sqlval($languageId) . '
-            WHERE `userId` = ' . Database::sqlval($this->userId) . '
         ';
         Database::query($sql);
     }
@@ -436,7 +425,7 @@ class User
      *
      * @return string
      */
-    protected function generatePassword($length = 8)
+	protected function generatePassword(int $length = 8): string
     {
         $characters = '0123456789!$%&abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $charactersLengh = strlen($characters);

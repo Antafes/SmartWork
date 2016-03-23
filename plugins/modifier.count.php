@@ -33,7 +33,7 @@
  * @param array $data The array to count the items
  * @return integer The amount of items in the array
  */
-function smarty_modifier_count($data)
+function smarty_modifier_count(array $data)
 {
     return count($data);
 }

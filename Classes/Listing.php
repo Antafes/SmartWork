@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of SmartWork.
  *
@@ -48,7 +49,7 @@ abstract class Listing
      *
      * @return array
      */
-    public function getList()
+    public function getList(): array
     {
         return $this->list;
     }
@@ -60,7 +61,7 @@ abstract class Listing
      *
      * @return void
      */
-    public function setList($list)
+    public function setList(array $list)
     {
         $this->list = $list;
     }
@@ -68,16 +69,18 @@ abstract class Listing
     /**
      * Get a model by its id.
      *
+     * @param int $id
+     *
      * @return \SmartWork\Model
      */
-    public abstract function getById($id);
+    public abstract function getById(int $id);
 
     /**
      * Get a list of arrays from the loaded models.
      *
      * @return array
      */
-    public function getAsArray()
+    public function getAsArray(): array
     {
         $list = array();
         foreach ($this->list as $row)
