@@ -71,6 +71,12 @@ class Display
 				'Display' => 'pagesWithoutLogin',
 			)
 		);
+
+        if (!is_array($globalUnallowedPages['Display']))
+        {
+            $globalUnallowedPages['Display'] = array();
+        }
+
         $this->pagesWithoutLogin = array_merge(
             $globalUnallowedPages['Display'],
             $this->pagesWithoutLogin

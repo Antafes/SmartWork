@@ -43,37 +43,53 @@ function redirect($location)
  */
 function classLoad($name)
 {
-	$dir = __DIR__.'/../../Classes/';
+    if ($name == 'Smarty')
+    {
+        require_once(__DIR__.'/../smarty3/Smarty.class.php');
+        return true;
+    }
+    elseif ($name == 'PHPMailer')
+    {
+        require_once(__DIR__.'/../phpmailer/class.phpmailer.php');
+        return true;
+    }
+
+	$dirs = array(__DIR__.'/../../Classes/');
 	$pieces = explode('\\', $name);
 
 	if ($pieces[0] === 'SmartWork')
 	{
-		$dir = __DIR__.'/../Classes/';
+		$dirs[0] = __DIR__.'/../Classes/';
 		array_shift($pieces);
 	}
 
+    if (isset($GLOBALS['autoload']))
+    {
+        $additionalDirs = $GLOBALS['autoload'];
+
+        if (!is_array($additionalDirs))
+        {
+            $additionalDirs = array($additionalDirs);
+        }
+
+        $dirs = array_merge($dirs, $additionalDirs);
+    }
+
 	$class = array_pop($pieces);
 
-	if ($pieces)
-	{
-		$dir .= implode('/', $pieces) . '/';
-	}
+    foreach ($dirs as $dir)
+    {
+        if ($pieces)
+        {
+            $dir .= implode('/', $pieces) . '/';
+        }
 
-	if(file_exists($dir . $class . '.php'))
-	{
-		require_once($dir . $class . '.php');
-		return true;
-	}
-	elseif ($name == 'Smarty')
-	{
-		require_once(__DIR__.'/../smarty3/Smarty.class.php');
-		return true;
-	}
-	elseif ($name == 'PHPMailer')
-	{
-		require_once(__DIR__.'/../phpmailer/class.phpmailer.php');
-		return true;
-	}
+        if(file_exists($dir . $class . '.php'))
+        {
+            require_once($dir . $class . '.php');
+            return true;
+        }
+    }
 
 	return false;
 }

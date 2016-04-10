@@ -52,9 +52,6 @@ $GLOBALS['config']['unAllowedPages'] = array(
 	'Header',
 );
 
-//autoloader
-spl_autoload_register('classLoad');
-
 // load the default config of the page, if existing
 if (file_exists(__DIR__.'/../config.default.php'))
 {
@@ -70,3 +67,6 @@ elseif (file_exists(__DIR__.'/../config.php'))
 {
 	require_once(__DIR__.'/../config.php');
 }
+
+//autoloader
+spl_autoload_register('classLoad');
