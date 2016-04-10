@@ -66,12 +66,13 @@ class Display
 	{
         $this->globalConfig = GlobalConfig::getInstance();
 		$this->unallowedPages = array_merge($unallowedPages, $this->unallowedPages);
+		$globalUnallowedPages = $this->globalConfig->getConfig(
+			array(
+				'Display' => 'pagesWithoutLogin',
+			)
+		);
         $this->pagesWithoutLogin = array_merge(
-            $this->globalConfig->getConfig(
-                array(
-                    'Display' => 'pagesWithoutLogin',
-                )
-            ),
+            $globalUnallowedPages['Display'],
             $this->pagesWithoutLogin
         );
 	}
