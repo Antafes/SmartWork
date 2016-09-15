@@ -24,11 +24,11 @@ require_once(__DIR__.'/util/general.php');
 
 //access data for the database
 $GLOBALS['db'] = array(
-	'server' => 'localhost',
-	'user' => '',
-	'password' => '',
-	'db' => 'magic',
-	'charset' => 'utf8',
+    'server' => 'localhost',
+    'user' => '',
+    'password' => '',
+    'db' => 'magic',
+    'charset' => 'utf8',
 );
 
 $GLOBALS['config']['charset'] = 'UTF-8';
@@ -49,23 +49,23 @@ $GLOBALS['config']['dir_ws_migrations'] = '';
 $GLOBALS['mail']['sender'] = 'test@test.org';
 
 $GLOBALS['config']['unAllowedPages'] = array(
-	'Header',
+    'Header',
 );
 
 // load the default config of the page, if existing
 if (file_exists(__DIR__.'/../config.default.php'))
 {
-	require_once(__DIR__.'/../config.default.php');
+    require_once(__DIR__.'/../config.default.php');
 }
 
 // load the specific config of the page
 if (file_exists(__DIR__.'/config.php'))
 {
-	require_once(__DIR__.'/config.php');
+    require_once(__DIR__.'/config.php');
 }
 elseif (file_exists(__DIR__.'/../config.php'))
 {
-	require_once(__DIR__.'/../config.php');
+    require_once(__DIR__.'/../config.php');
 }
 
 //autoloader

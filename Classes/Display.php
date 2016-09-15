@@ -39,38 +39,38 @@ class Display
     protected $globalConfig;
 
     /**
-	 * A list of pages which are not accessible.
-	 *
-	 * @var array
-	 */
-	protected $unallowedPages = array();
+     * A list of pages which are not accessible.
+     *
+     * @var array
+     */
+    protected $unallowedPages = array();
 
-	/**
-	 * A list of pages which are accessible without login.
-	 *
-	 * @var array
-	 */
-	protected $pagesWithoutLogin = array(
-		'Register',
-		'Login',
-		'Imprint',
-		'LostPassword',
-	);
+    /**
+     * A list of pages which are accessible without login.
+     *
+     * @var array
+     */
+    protected $pagesWithoutLogin = array(
+        'Register',
+        'Login',
+        'Imprint',
+        'LostPassword',
+    );
 
-	/**
-	 * A list of unallowed pages which will be added to the existing list.
-	 *
-	 * @param array $unallowedPages
-	 */
-	function __construct($unallowedPages = array())
-	{
+    /**
+     * A list of unallowed pages which will be added to the existing list.
+     *
+     * @param array $unallowedPages
+     */
+    function __construct($unallowedPages = array())
+    {
         $this->globalConfig = GlobalConfig::getInstance();
-		$this->unallowedPages = array_merge($unallowedPages, $this->unallowedPages);
-		$globalUnallowedPages = $this->globalConfig->getConfig(
-			array(
-				'Display' => 'pagesWithoutLogin',
-			)
-		);
+        $this->unallowedPages = array_merge($unallowedPages, $this->unallowedPages);
+        $globalUnallowedPages = $this->globalConfig->getConfig(
+            array(
+                'Display' => 'pagesWithoutLogin',
+            )
+        );
 
         if (!is_array($globalUnallowedPages['Display']))
         {
@@ -81,132 +81,132 @@ class Display
             $globalUnallowedPages['Display'],
             $this->pagesWithoutLogin
         );
-	}
+    }
 
-	/**
-	 * Display the given page.
-	 *
-	 * @param string $pageName
-	 *
-	 * @return void
-	 */
-	public function showPage($pageName)
-	{
-		$pageName = $this->checkPage($pageName);
+    /**
+     * Display the given page.
+     *
+     * @param string $pageName
+     *
+     * @return void
+     */
+    public function showPage($pageName)
+    {
+        $pageName = $this->checkPage($pageName);
 
-		// Create the page itself
-		$class = '\\Page\\'.$pageName;
-		/* @var $page \SmartWork\Page */
-		$page = new $class();
+        // Create the page itself
+        $class = '\\Page\\'.$pageName;
+        /* @var $page \SmartWork\Page */
+        $page = new $class();
 
-		if ($page->getTemplate() && !$page->isAjax())
-		{
-			// Create the page header
-			if (class_exists('\\Page\\Header'))
-			{
-				$header = new \Page\Header($page->getTemplate());
-			}
-			else
-			{
-				$header = new \SmartWork\Page\Header($page->getTemplate());
-			}
+        if ($page->getTemplate() && !$page->isAjax())
+        {
+            // Create the page header
+            if (class_exists('\\Page\\Header'))
+            {
+                $header = new \Page\Header($page->getTemplate());
+            }
+            else
+            {
+                $header = new \SmartWork\Page\Header($page->getTemplate());
+            }
 
-			$header->process();
-		}
+            $header->process();
+        }
 
-		$page->process();
-		$page->render();
-	}
+        $page->process();
+        $page->render();
+    }
 
-	/**
-	 * Check if the page is in the list of unallowed pages. If so, return 'Index'.
-	 *
-	 * @param string $pageName
-	 *
-	 * @return string
-	 */
-	protected function checkPage($pageName)
-	{
+    /**
+     * Check if the page is in the list of unallowed pages. If so, return 'Index'.
+     *
+     * @param string $pageName
+     *
+     * @return string
+     */
+    protected function checkPage($pageName)
+    {
         $checkPageHooks = $this->globalConfig->getHook(
             array(
                 'Display' => 'checkPage',
             )
         );
 
-		if ($checkPageHooks)
-		{
-			foreach ($checkPageHooks as $hook)
-			{
-				$result = $hook($pageName);
+        if ($checkPageHooks)
+        {
+            foreach ($checkPageHooks as $hook)
+            {
+                $result = $hook($pageName);
 
-				if ($result)
-				{
-					$pageName = $result;
-					break;
-				}
-			}
-		}
+                if ($result)
+                {
+                    $pageName = $result;
+                    break;
+                }
+            }
+        }
 
-		if (in_array($pageName, $this->unallowedPages))
-		{
-			return 'Index';
-		}
+        if (in_array($pageName, $this->unallowedPages))
+        {
+            return 'Index';
+        }
 
-		if (!$_SESSION['userId'] && !in_array($pageName, $this->pagesWithoutLogin))
-		{
-			$pageName = 'Login';
-		}
+        if (!$_SESSION['userId'] && !in_array($pageName, $this->pagesWithoutLogin))
+        {
+            $pageName = 'Login';
+        }
 
-		return $pageName;
-	}
+        return $pageName;
+    }
 
-	/**
-	 * Add one or more pages to the list of unallowed pages.
-	 *
-	 * @param array|string $pageNames
-	 *
-	 * @return void
-	 */
-	public function addUnallowedPages($pageNames)
-	{
-		if (is_array($pageNames))
-		{
-			$this->unallowedPages += $pageNames;
-		}
-		else
-		{
-			$this->unallowedPages += array($pageNames);
-		}
-	}
+    /**
+     * Add one or more pages to the list of unallowed pages.
+     *
+     * @param array|string $pageNames
+     *
+     * @return void
+     */
+    public function addUnallowedPages($pageNames)
+    {
+        if (is_array($pageNames))
+        {
+            $this->unallowedPages += $pageNames;
+        }
+        else
+        {
+            $this->unallowedPages += array($pageNames);
+        }
+    }
 
-	/**
-	 * Remove one or more pages from the list of unallowed pages.
-	 *
-	 * @param array|string $pageNames
-	 *
-	 * @return void
-	 */
-	public function removeUnallowedPages($pageNames)
-	{
-		if (!is_array($pageNames))
-		{
-			$pageNames = array($pageNames);
-		}
+    /**
+     * Remove one or more pages from the list of unallowed pages.
+     *
+     * @param array|string $pageNames
+     *
+     * @return void
+     */
+    public function removeUnallowedPages($pageNames)
+    {
+        if (!is_array($pageNames))
+        {
+            $pageNames = array($pageNames);
+        }
 
-		foreach ($pageNames as $pageName)
-		{
-			$index = array_search($pageName, $this->unallowedPages);
-			unset($this->unallowedPages[$index]);
-		}
-	}
+        foreach ($pageNames as $pageName)
+        {
+            $index = array_search($pageName, $this->unallowedPages);
+            unset($this->unallowedPages[$index]);
+        }
+    }
 
-	/**
-	 * Clear the list of unallowed pages.
-	 *
-	 * @return void
-	 */
-	public function clearUnallowedPages()
-	{
-		$this->unallowedPages = array();
-	}
+    /**
+     * Clear the list of unallowed pages.
+     *
+     * @return void
+     */
+    public function clearUnallowedPages()
+    {
+        $this->unallowedPages = array();
+    }
 }

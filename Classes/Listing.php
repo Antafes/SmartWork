@@ -31,60 +31,60 @@ namespace SmartWork;
  */
 abstract class Listing
 {
-	/**
-	 * @var array
-	 */
-	protected $list = array();
+    /**
+     * @var array
+     */
+    protected $list = array();
 
-	/**
-	 * Load the list of models.
-	 *
-	 * @return \self
-	 */
-	public abstract static function loadList();
+    /**
+     * Load the list of models.
+     *
+     * @return \self
+     */
+    public abstract static function loadList();
 
-	/**
-	 * Get the list.
-	 *
-	 * @return array
-	 */
-	public function getList()
-	{
-		return $this->list;
-	}
+    /**
+     * Get the list.
+     *
+     * @return array
+     */
+    public function getList()
+    {
+        return $this->list;
+    }
 
-	/**
-	 * Override the current loaded list.
-	 *
-	 * @param array $list
-	 *
-	 * @return void
-	 */
-	public function setList($list)
-	{
-		$this->list = $list;
-	}
+    /**
+     * Override the current loaded list.
+     *
+     * @param array $list
+     *
+     * @return void
+     */
+    public function setList($list)
+    {
+        $this->list = $list;
+    }
 
-	/**
-	 * Get a model by its id.
-	 *
-	 * @return \SmartWork\Model
-	 */
-	public abstract function getById($id);
+    /**
+     * Get a model by its id.
+     *
+     * @return \SmartWork\Model
+     */
+    public abstract function getById($id);
 
-	/**
-	 * Get a list of arrays from the loaded models.
-	 *
-	 * @return array
-	 */
-	public function getAsArray()
-	{
-		$list = array();
-		foreach ($this->list as $row)
-		{
-			$list[] = $row->getAsArray();
-		}
+    /**
+     * Get a list of arrays from the loaded models.
+     *
+     * @return array
+     */
+    public function getAsArray()
+    {
+        $list = array();
+        foreach ($this->list as $row)
+        {
+            $list[] = $row->getAsArray();
+        }
 
-		return $list;
-	}
+        return $list;
+    }
 }

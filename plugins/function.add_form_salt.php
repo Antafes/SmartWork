@@ -42,15 +42,15 @@
  */
 function smarty_function_add_form_salt($params, $smarty)
 {
-	if (!in_array('formName', array_keys($params)))
-		$smarty->trigger_error('explode: missing "formName" parameter');
+    if (!in_array('formName', array_keys($params)))
+        $smarty->trigger_error('explode: missing "formName" parameter');
 
-	$prefix = '';
+    $prefix = '';
 
-	if ($params['prefix'])
-		$prefix = $params['prefix'].'_';
+    if ($params['prefix'])
+        $prefix = $params['prefix'].'_';
 
-	$id = uniqid($prefix);
-	$_SESSION['formSalts'][$params['formName']] = $id;
-	echo '<input type="hidden" name="'.$params['formName'].'" value="'.$id.'" />';
+    $id = uniqid($prefix);
+    $_SESSION['formSalts'][$params['formName']] = $id;
+    echo '<input type="hidden" name="'.$params['formName'].'" value="'.$id.'" />';
 }

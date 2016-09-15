@@ -35,9 +35,9 @@
  */
 function smarty_modifier_sprintf()
 {
-	$args = func_get_args();
-	$format = $args[0];
-	unset($args[0]);
-	$params = $args;
-	return vsprintf($format, $params);
+    $args = func_get_args();
+    $format = $args[0];
+    unset($args[0]);
+    $params = $args;
+    return vsprintf($format, $params);
 }

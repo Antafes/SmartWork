@@ -35,5 +35,5 @@
  */
 function smarty_modifier_json_encode($string, $options = 0, $depth = 512)
 {
-	return json_encode($string, $options, $depth);
+    return json_encode($string, $options, $depth);
 }

@@ -30,8 +30,8 @@
  */
 function redirect($location)
 {
-	header('Location: '.$location);
-	die();
+    header('Location: '.$location);
+    die();
 }
 
 /**
@@ -54,14 +54,14 @@ function classLoad($name)
         return true;
     }
 
-	$dirs = array(__DIR__.'/../../Classes/');
-	$pieces = explode('\\', $name);
+    $dirs = array(__DIR__.'/../../Classes/');
+    $pieces = explode('\\', $name);
 
-	if ($pieces[0] === 'SmartWork')
-	{
-		$dirs[0] = __DIR__.'/../Classes/';
-		array_shift($pieces);
-	}
+    if ($pieces[0] === 'SmartWork')
+    {
+        $dirs[0] = __DIR__.'/../Classes/';
+        array_shift($pieces);
+    }
 
     if (isset($GLOBALS['autoload']))
     {
@@ -75,7 +75,7 @@ function classLoad($name)
         $dirs = array_merge($dirs, $additionalDirs);
     }
 
-	$class = array_pop($pieces);
+    $class = array_pop($pieces);
 
     foreach ($dirs as $dir)
     {
@@ -91,5 +91,5 @@ function classLoad($name)
         }
     }
 
-	return false;
+    return false;
 }

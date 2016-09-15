@@ -35,5 +35,5 @@
  */
 function smarty_modifier_count($data)
 {
-	return count($data);
+    return count($data);
 }

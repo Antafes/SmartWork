@@ -31,12 +31,12 @@ namespace SmartWork;
  */
 class GlobalConfig
 {
-	/**
-	 * Singleton instance of the config
-	 *
-	 * @var \self
-	 */
-	protected static $globalConfig;
+    /**
+     * Singleton instance of the config
+     *
+     * @var \self
+     */
+    protected static $globalConfig;
 
     /**
      * @var array
@@ -51,21 +51,21 @@ class GlobalConfig
         $this->globals = $GLOBALS;
     }
 
-	/**
-	 * Get the singleton instance.
-	 *
-	 * @return GlobalConfig
-	 */
-	public static function getInstance()
-	{
-		if (!self::$globalConfig)
-		{
-			$config = new self();
-			self::$globalConfig = $config;
-		}
+    /**
+     * Get the singleton instance.
+     *
+     * @return GlobalConfig
+     */
+    public static function getInstance()
+    {
+        if (!self::$globalConfig)
+        {
+            $config = new self();
+            self::$globalConfig = $config;
+        }
 
-		return self::$globalConfig;
-	}
+        return self::$globalConfig;
+    }
 
     /**
      * Get the global configuration value.

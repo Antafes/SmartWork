@@ -38,5 +38,5 @@
  */
 function smarty_modifier_number_format($number, $decimals = 2, $decimal = '.', $thousands = ',')
 {
-	return number_format($number, $decimals, $decimal, $thousands);
+    return number_format($number, $decimals, $decimal, $thousands);
 }

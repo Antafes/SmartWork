@@ -22,52 +22,52 @@
  */
 body
 {
-	font-family: Helvetica, arial, freesans, clean, sans-serif;
-	font-size: 13px;
+    font-family: Helvetica, arial, freesans, clean, sans-serif;
+    font-size: 13px;
 }
 
 .clear
 {
-	float: none !important;
-	clear: both !important;
+    float: none !important;
+    clear: both !important;
 }
 
 .hidden
 {
-	display: none;
+    display: none;
 }
 
 a.button
 {
-	text-decoration: none;
-	float: left;
-	display: block;
-	padding: 5px;
-	border: 1px solid #878787;
-	margin-right: 3px;
-	color: #000000;
-	border-radius: 3px;
+    text-decoration: none;
+    float: left;
+    display: block;
+    padding: 5px;
+    border: 1px solid #878787;
+    margin-right: 3px;
+    color: #000000;
+    border-radius: 3px;
 }
 
 a.active
 {
-	background-color: #ffff99;
+    background-color: #ffff99;
 }
 
 .left
 {
-	float: left;
+    float: left;
 }
 
 .right
 {
-	float: right;
+    float: right;
 }
 
 .table > .head > .row:after,
 .table > .body > .row:after
 {
-	content: ' ';
+    content: ' ';
 }
 
 .table > .head > .row,
@@ -75,62 +75,62 @@ a.active
 .table > .head > .row:after,
 .table > .body > .row:after
 {
-	display: table;
-	clear: both;
+    display: table;
+    clear: both;
 }
 
 .table .row > div
 {
-	float: left;
+    float: left;
 }
 
 table.collapse
 {
-	border-collapse: collapse;
+    border-collapse: collapse;
 }
 
 table.collapse td,
 table.collapse th
 {
-	border-right: 1px solid #b7b7b7;
-	padding: 4px;
+    border-right: 1px solid #b7b7b7;
+    padding: 4px;
 }
 
 table.collapse td:last-child,
 table.collapse th:last-child
 {
-	border-right: 0 none;
+    border-right: 0 none;
 }
 
 .table .row.odd,
 tr.odd
 {
-	background-color: #dedede;
+    background-color: #dedede;
 }
 
 td.centered,
 th.centered
 {
-	text-align: center;
+    text-align: center;
 }
 
 .error
 {
-	display: inline-block;
-	border: 1px solid #ff3800;
-	border-radius: 3px;
-	padding: 3px;
-	margin: 10px;
+    display: inline-block;
+    border: 1px solid #ff3800;
+    border-radius: 3px;
+    padding: 3px;
+    margin: 10px;
 }
 
 .listNoStyle
 {
-	list-style: none;
-	padding: 0;
+    list-style: none;
+    padding: 0;
 }
 
 .box
 {
-	border: 1px solid #000000;
-	border-radius: 5px;
+    border: 1px solid #000000;
+    border-radius: 5px;
 }

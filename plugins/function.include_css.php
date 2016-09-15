@@ -42,28 +42,28 @@
 function smarty_function_include_css($params, $template)
 {
     $globalConfig = \SmartWork\GlobalConfig::getInstance();
-	if ($_SESSION['css']['file'])
-	{
-		foreach ($_SESSION['css']['file'] as $file)
-		{
-			$path = 'css/' . $file . '.css';
+    if ($_SESSION['css']['file'])
+    {
+        foreach ($_SESSION['css']['file'] as $file)
+        {
+            $path = 'css/' . $file . '.css';
 
-			if (!file_exists($path))
-			{
-				$path = $globalConfig->getConfig('dir_ws_system').'/Css/' . $file . '.css';
-			}
+            if (!file_exists($path))
+            {
+                $path = $globalConfig->getConfig('dir_ws_system').'/Css/' . $file . '.css';
+            }
 
-			echo '<link rel="stylesheet" type="text/css" href="'.$path.'" />';
-		}
-	}
+            echo '<link rel="stylesheet" type="text/css" href="'.$path.'" />';
+        }
+    }
 
-	if ($_SESSION['css']['script'])
-	{
-		foreach ($_SESSION['css']['script'] as $script)
-		{
-			echo '<style type="text/css">';
-			echo $script;
-			echo '</style>';
-		}
-	}
+    if ($_SESSION['css']['script'])
+    {
+        foreach ($_SESSION['css']['script'] as $script)
+        {
+            echo '<style type="text/css">';
+            echo $script;
+            echo '</style>';
+        }
+    }
 }

@@ -31,14 +31,14 @@ $display = new \SmartWork\Display($globalConfig->getConfig('unAllowedPages'));
 $page = $_GET['page'];
 
 if (!$page)
-	$page = 'Index';
+    $page = 'Index';
 
 if ($_GET['language'])
 {
-	$translator = \SmartWork\Translator::getInstance();
-	$translator->setCurrentLanguage($_GET['language']);
+    $translator = \SmartWork\Translator::getInstance();
+    $translator->setCurrentLanguage($_GET['language']);
 
-	redirect('index.php?page='.$page);
+    redirect('index.php?page='.$page);
 }
 
 $display->showPage($page);

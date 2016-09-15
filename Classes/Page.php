@@ -31,10 +31,10 @@ namespace SmartWork;
  */
 abstract class Page
 {
-	/**
-	 * @var \SmartWork\Template
-	 */
-	protected $template;
+    /**
+     * @var \SmartWork\Template
+     */
+    protected $template;
 
     /**
      * Whether to render the template or not
@@ -44,53 +44,53 @@ abstract class Page
     protected $doRender = true;
 
     /**
-	 * Constructor
-	 *
-	 * @param string $template
-	 */
-	function __construct($template)
-	{
-		$this->template = new \SmartWork\Template();
-		$this->template->setTemplate($template);
-	}
+     * Constructor
+     *
+     * @param string $template
+     */
+    function __construct($template)
+    {
+        $this->template = new \SmartWork\Template();
+        $this->template->setTemplate($template);
+    }
 
-	/**
-	 * Render and output the template
-	 *
-	 * @return void
-	 */
-	public function render()
-	{
-		$this->template->render();
-	}
+    /**
+     * Render and output the template
+     *
+     * @return void
+     */
+    public function render()
+    {
+        $this->template->render();
+    }
 
-	/**
-	 * Get the template object.
-	 *
-	 * @return \SmartWork\Template
-	 */
-	public function getTemplate()
-	{
-		return $this->template;
-	}
+    /**
+     * Get the template object.
+     *
+     * @return \SmartWork\Template
+     */
+    public function getTemplate()
+    {
+        return $this->template;
+    }
 
-	/**
-	 * Assign a value with a name to the smarty instance.
-	 *
-	 * @param string $name
-	 * @param mixed  $value
-	 *
-	 * @return void
-	 */
-	public function assign($name, $value)
-	{
-		$this->getTemplate()->assign($name, $value);
-	}
+    /**
+     * Assign a value with a name to the smarty instance.
+     *
+     * @param string $name
+     * @param mixed  $value
+     *
+     * @return void
+     */
+    public function assign($name, $value)
+    {
+        $this->getTemplate()->assign($name, $value);
+    }
 
-	/**
-	 * Process possibly entered data of the page.
-	 */
-	abstract public function process();
+    /**
+     * Process possibly entered data of the page.
+     */
+    abstract public function process();
 
     /**
      * Whether the page is called as ajax page

@@ -35,5 +35,5 @@
  */
 function smarty_modifier_rawurlencode($string)
 {
-	return rawurlencode($string);
+    return rawurlencode($string);
 }

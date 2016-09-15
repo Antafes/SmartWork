@@ -33,55 +33,55 @@ namespace SmartWork\Page;
  */
 class Header extends \SmartWork\Page
 {
-	/**
-	 * Constructor
-	 *
-	 * @param \SmartWork\Template $template
-	 */
-	public function __construct(\SmartWork\Template $template)
-	{
-		$this->template = $template;
-	}
+    /**
+     * Constructor
+     *
+     * @param \SmartWork\Template $template
+     */
+    public function __construct(\SmartWork\Template $template)
+    {
+        $this->template = $template;
+    }
 
-	/**
-	 * Add css and javascript files.
-	 * Load the translations for javascripts.
-	 * Create the menu.
-	 *
-	 * @return void
-	 */
-	public function process()
-	{
-		// Add basic CSS files
-		$this->template->loadCss('common');
-		$this->template->loadCss('jquery-ui');
+    /**
+     * Add css and javascript files.
+     * Load the translations for javascripts.
+     * Create the menu.
+     *
+     * @return void
+     */
+    public function process()
+    {
+        // Add basic CSS files
+        $this->template->loadCss('common');
+        $this->template->loadCss('jquery-ui');
 
-		// Add JS files
-		$this->template->loadJs('jquery-2.1.4');
-		$this->template->loadJs('jquery-ui');
+        // Add JS files
+        $this->template->loadJs('jquery-2.1.4');
+        $this->template->loadJs('jquery-ui');
 
-		// Add the language entries for JavaScripts
-		$this->template->assign(
+        // Add the language entries for JavaScripts
+        $this->template->assign(
             array(
                 'translations' => json_encode($this->template->getTranslator()->getAsArray()),
                 'languageCode' => $this->template->getTranslator()->getCurrentLanguageObject()->getIso2code(),
             )
         );
 
-		$this->createMenu();
-	}
+        $this->createMenu();
+    }
 
-	/**
-	 * Check whether a user is logged in and if the user has admin privileges.
-	 *
-	 * @return void
-	 */
-	protected function createMenu()
-	{
-		if ($_SESSION['userId'])
-		{
-			$user = \SmartWork\User::getUserById($_SESSION['userId']);
-			$this->template->assign('isAdmin', $user->getAdmin());
-		}
-	}
+    /**
+     * Check whether a user is logged in and if the user has admin privileges.
+     *
+     * @return void
+     */
+    protected function createMenu()
+    {
+        if ($_SESSION['userId'])
+        {
+            $user = \SmartWork\User::getUserById($_SESSION['userId']);
+            $this->template->assign('isAdmin', $user->getAdmin());
+        }
+    }
 }
