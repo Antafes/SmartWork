@@ -39,17 +39,20 @@ class Database
     protected static $mysql;
 
     /**
-     * handles the MySQL queries
-     * if the query is a select, it returns an array if there is only one value, otherwise it returns the value
-     * if the query is an update, replace or delete from, it returns the number of affected rows
-     * if the query is an insert, it returns the last insert id
+     * Handles the MySQL queries.
+     * If the query is a select, it returns an array if there is only one value, otherwise it
+     * returns the value.
+     * If the query is an update, replace or delete from, it returns the number of affected rows
+     * If the query is an insert, it returns the last insert id
      *
      * @param string $sql
-     * @param bool $noTransform (default = false) if set to "true" the query function always returns a multidimension array
+     * @param bool $noTransform (default = false) if set to "true" the query function always returns
+     *                          a multidimension array
+     * @param bool $raw         Whether the result should return the raw mysqli result
      *
      * @return array|string|int|float
      */
-    public static function query($sql, $noTransform = false, $raw = false)
+    public static function query(string $sql, bool $noTransform = false, bool $raw = false)
     {
         global $debug, $firePHP_debug, $smarty_debug;
 
@@ -168,7 +171,7 @@ class Database
      *
      * @return mixed
      */
-    public static function query_raw($sql)
+    public static function query_raw(string $sql)
     {
         return self::query($sql, false, true);
     }
@@ -208,10 +211,11 @@ class Database
      * escaped separately.
      *
      * @param mixed $value
+     * @param bool  $wrap
      *
-     * @return String
+     * @return string
      */
-    public static function sqlval($value, $wrap = true)
+    public static function sqlval($value, bool $wrap = true): string
     {
         $mysql = self::connect();
 
@@ -251,7 +255,7 @@ class Database
      *
      * @return mysqli
      */
-    protected static function connect()
+    protected static function connect(): \mysqli
     {
         if (!is_object(self::$mysql))
         {

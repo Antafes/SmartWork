@@ -77,7 +77,7 @@ class Language extends \SmartWork\Model
      *
      * @return \self
      */
-    public static function loadById($id)
+    public static function loadById(int $id): self
     {
         $sql = '
             SELECT
@@ -122,14 +122,5 @@ class Language extends \SmartWork\Model
     public function getIso2code()
     {
         return $this->iso2code;
-    }
-
-    /**
-     * Not used
-     *
-     * @return void
-     */
-    public function getAsArray()
-    {
     }
 }

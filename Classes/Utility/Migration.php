@@ -45,7 +45,7 @@ class Migration
      *
      * @return string
      */
-    public function manager($post)
+    public function manager(array $post): string
     {
         $this->globalConfig = \SmartWork\GlobalConfig::getInstance();
         $globalMigrationsDir = $this->getGlobalMigrationsDirectory();
@@ -403,11 +403,9 @@ HTM;
     /**
      * check if the migrations have been initialized
      *
-     * @author friend8
-     *
-     * @return boolean
+     * @return bool
      */
-    protected function isMigrationsInitialized()
+    protected function isMigrationsInitialized(): bool
     {
         $sql = 'SHOW TABLES LIKE "db_migrations"';
         return !!Database::query($sql);
@@ -415,8 +413,6 @@ HTM;
 
     /**
      * initialize the migrations
-     *
-     * @author friend8
      *
      * @return void
      */
@@ -436,13 +432,11 @@ HTM;
     /**
      * check if the migration has been applied
      *
-     * @author friend8
-     *
      * @param string $filename
      *
-     * @return boolean
+     * @return bool
      */
-    protected function isMigrationApplied($filename)
+    protected function isMigrationApplied($filename): bool
     {
         $sql = '
             SELECT IF (`status` = "applied", 1, 0)
@@ -455,13 +449,11 @@ HTM;
     /**
      * mark the migration as applied
      *
-     * @author friend8
-     *
      * @param string $filename
      *
      * @return void
      */
-    protected function markMigrationApplied($filename)
+    protected function markMigrationApplied(string $filename)
     {
         $sql = '
             INSERT INTO `db_migrations`
@@ -475,13 +467,11 @@ HTM;
     /**
      * mark the migration as unapplied
      *
-     * @author friend8
-     *
      * @param string $filename
      *
      * @return void
      */
-    protected function markMigrationUnapplied($filename)
+    protected function markMigrationUnapplied(string $filename)
     {
         $sql = '
             UPDATE `db_migrations`
