@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of SmartWork.
  *
@@ -40,15 +41,19 @@
  * @param array $params
  * @param Smarty_Internal_Template $template
  */
-function smarty_function_add_form_salt($params, $smarty)
+function smarty_function_add_form_salt(array $params, Smarty_Internal_Template $template)
 {
     if (!in_array('formName', array_keys($params)))
-        $smarty->trigger_error('explode: missing "formName" parameter');
+    {
+        $template->trigger_error('explode: missing "formName" parameter');
+    }
 
     $prefix = '';
 
-    if ($params['prefix'])
+    if (array_key_exists('prefix', $params))
+    {
         $prefix = $params['prefix'].'_';
+    }
 
     $id = uniqid($prefix);
     $_SESSION['formSalts'][$params['formName']] = $id;

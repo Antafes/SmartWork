@@ -50,8 +50,15 @@ abstract class Page
      */
     function __construct($template)
     {
-        $this->template = new \SmartWork\Template();
-        $this->template->setTemplate($template);
+        if (empty($template))
+        {
+            $this->template = new NoTemplate();
+        }
+        else
+        {
+            $this->template = new \SmartWork\Template();
+            $this->template->setTemplate($template);
+        }
     }
 
     /**
@@ -69,7 +76,7 @@ abstract class Page
      *
      * @return \SmartWork\Template
      */
-    public function getTemplate()
+    public function getTemplate(): Template
     {
         return $this->template;
     }
@@ -82,7 +89,7 @@ abstract class Page
      *
      * @return void
      */
-    public function assign($name, $value)
+    public function assign(string $name, $value)
     {
         $this->getTemplate()->assign($name, $value);
     }
@@ -97,15 +104,17 @@ abstract class Page
      *
      * @return boolean
      */
-    public function isAjax()
+    public function isAjax(): bool
     {
-        return !!$_REQUEST['ajax'];
+        return !!(array_key_exists('ajax', $_REQUEST) && $_REQUEST['ajax']);
     }
 
     /**
      * Echo the ajax response and die.
      *
      * @param mixed $response
+     *
+     * @return void
      */
     protected function echoAjaxResponse($response)
     {

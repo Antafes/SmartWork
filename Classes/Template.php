@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of SmartWork.
  *
@@ -68,6 +69,16 @@ class Template
         $this->smarty->assign('translator', $translator);
         $this->smarty->assign('languages', $this->translator->getAllLanguages());
         $this->smarty->assign('currentLanguage', $this->translator->getCurrentLanguage());
+
+        if (!array_key_exists('scripts', $_SESSION) || !is_array($_SESSION['scripts']))
+        {
+            $_SESSION['scripts'] = array();
+        }
+
+        if (!array_key_exists('css', $_SESSION) || !is_array($_SESSION['css']))
+        {
+            $_SESSION['css'] = array();
+        }
     }
 
     /**
@@ -85,7 +96,7 @@ class Template
      *
      * @param string $template
      */
-    public function setTemplate($template)
+    public function setTemplate(string $template)
     {
         $this->template = $template;
     }
@@ -119,7 +130,7 @@ class Template
      *
      * @return Translator
      */
-    public function getTranslator()
+    public function getTranslator(): Translator
     {
         return $this->translator;
     }
@@ -132,13 +143,17 @@ class Template
      *
      * @return void
      */
-    public function loadJs($file)
+    public function loadJs(string $file)
     {
         if (!is_array($_SESSION['scripts']['file']))
+        {
             $_SESSION['scripts']['file'] = array();
+        }
 
         if (!in_array($file, $_SESSION['scripts']['file']))
+        {
             $_SESSION['scripts']['file'][] = $file;
+        }
     }
 
     /**
@@ -148,7 +163,7 @@ class Template
      *
      * @return void
      */
-    public function loadJsScript($script)
+    public function loadJsScript(string $script)
     {
         $_SESSION['scripts']['script'][] = $script;
     }
@@ -160,7 +175,7 @@ class Template
      *
      * @return void
      */
-    public function loadJsReadyScript($script)
+    public function loadJsReadyScript(string $script)
     {
         $_SESSION['scripts']['ready_script'][] = $script;
     }
@@ -169,17 +184,21 @@ class Template
      * Load a css file in smarty.
      * Use only the filename without ending.
      *
-     * @param String $file
+     * @param string $file
      *
      * @return void
      */
-    public function loadCss($file)
+    public function loadCss(string $file)
     {
-        if (!is_array($_SESSION['css']['file']))
+        if (!array_key_exists('file', $_SESSION['css']) || !is_array($_SESSION['css']['file']))
+        {
             $_SESSION['css']['file'] = array();
+        }
 
         if (!in_array($file, $_SESSION['css']['file']))
+        {
             $_SESSION['css']['file'][] = $file;
+        }
     }
 
     /**

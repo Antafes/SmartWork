@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of SmartWork.
  *
@@ -72,12 +73,19 @@ class Translator
      *
      * @return Translator
      */
-    public static function getInstance()
+    public static function getInstance(): Translator
     {
         if (!self::$translator)
         {
             $translator = new self();
-            $translator->setCurrentLanguage($_COOKIE['language']);
+            $language = intval($_COOKIE['language']);
+
+            if ($language == null)
+            {
+                $language = 1;
+            }
+
+            $translator->setCurrentLanguage($language);
             self::$translator = $translator;
         }
 
@@ -93,7 +101,7 @@ class Translator
      *
      * @return void
      */
-    public function addTranslation($language, $key, $value)
+    public function addTranslation(int $language, string $key, string $value)
     {
         if ($this->translations[$language][$key])
         {
@@ -132,7 +140,7 @@ class Translator
         foreach ($languages as $language)
         {
             $this->languages[$language['languageId']] = \SmartWork\Model\Language::loadById(
-                $language['languageId']
+                intval($language['languageId'])
             );
         }
     }
@@ -168,7 +176,7 @@ class Translator
      *
      * @return array
      */
-    public function getAllLanguages()
+    public function getAllLanguages(): array
     {
         return $this->languages;
     }
@@ -178,7 +186,7 @@ class Translator
      *
      * @return integer
      */
-    public function getCurrentLanguage()
+    public function getCurrentLanguage(): int
     {
         if (!$this->currentLanguage)
         {
@@ -196,7 +204,7 @@ class Translator
      *
      * @return void
      */
-    public function setCurrentLanguage($currentLanguage)
+    public function setCurrentLanguage(int $currentLanguage)
     {
         $this->currentLanguage = $currentLanguage;
         $this->setUserLanguage($this->currentLanguage);
@@ -207,7 +215,7 @@ class Translator
      *
      * @return \SmartWork\Model\Language
      */
-    public function getCurrentLanguageObject()
+    public function getCurrentLanguageObject(): Model\Language
     {
         $languageId = $this->getCurrentLanguage();
 
@@ -219,7 +227,7 @@ class Translator
      *
      * @return string
      */
-    public function getCurrentLanguageName()
+    public function getCurrentLanguageName(): string
     {
         return $this->gt($this->languages[$this->currentLanguage]->getLanguage());
     }
@@ -233,7 +241,7 @@ class Translator
      *
      * @return mixed
      */
-    public function getTranslation($key)
+    public function getTranslation(string $key)
     {
         return $this->gt($key);
     }
@@ -247,7 +255,7 @@ class Translator
      *
      * @return mixed
      */
-    public function gt($key, $arguments = array())
+    public function gt(string $key, array $arguments = array())
     {
         if (is_object($key) || is_bool($key) || is_float($key))
         {
@@ -282,7 +290,7 @@ class Translator
      *
      * @return string
      */
-    protected function replace($translation, $arguments)
+    protected function replace(string $translation, array $arguments): string
     {
         if (!$arguments)
         {
@@ -302,9 +310,9 @@ class Translator
     /**
      * Get the logged in users language id.
      *
-     * @return integer
+     * @return int
      */
-    protected function getUserLanguage()
+    protected function getUserLanguage(): int
     {
         $languageId = $_COOKIE['language'];
 
@@ -321,13 +329,13 @@ class Translator
     /**
      * Set the logged in user language.
      *
-     * @param integer $languageId
+     * @param int $languageId
      *
      * @return void
      */
-    protected function setUserLanguage($languageId)
+    protected function setUserLanguage(int $languageId)
     {
-        setcookie('language', $languageId, time() + 86400);
+        setcookie('language', strval($languageId), time() + 86400);
     }
 
     /**
@@ -335,7 +343,7 @@ class Translator
      *
      * @return array
      */
-    public function getAsArray()
+    public function getAsArray(): array
     {
         return $this->translations[$this->getCurrentLanguage()];
     }

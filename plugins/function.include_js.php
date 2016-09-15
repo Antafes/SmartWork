@@ -39,7 +39,7 @@
  * @param array $params
  * @param Smarty_Internal_Template $template
  */
-function smarty_function_include_js($params, $template)
+function smarty_function_include_js(array $params, Smarty_Internal_Template $template)
 {
     $globalConfig = \SmartWork\GlobalConfig::getInstance();
     $minified = '';
@@ -49,7 +49,7 @@ function smarty_function_include_js($params, $template)
         $minified = '.min';
     }
 
-    if ($_SESSION['scripts']['file'])
+    if (array_key_exists('file', $_SESSION['scripts']))
     {
         foreach ($_SESSION['scripts']['file'] as $file)
         {
@@ -64,7 +64,7 @@ function smarty_function_include_js($params, $template)
         }
     }
 
-    if ($_SESSION['scripts']['script'] || $_SESSION['scripts']['ready_script'])
+    if (array_key_exists('script', $_SESSION['scripts']) || array_key_exists('ready_script', $_SESSION['scripts']))
     {
         echo '<script language="javascript" type="text/javascript">';
 

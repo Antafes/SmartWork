@@ -34,13 +34,11 @@ class Migration
     /**
      * manager for the migrations
      *
-     * @author friend8
-     *
      * @param array $post
      *
      * @return string
      */
-    public function manager($post)
+    public function manager(array $post): string
     {
         $globalConfig = \SmartWork\GlobalConfig::getInstance();
         $migration_files_dir = $globalConfig->getConfig('migrations_dir');
@@ -216,11 +214,9 @@ class Migration
     /**
      * check if the migrations have been initialized
      *
-     * @author friend8
-     *
-     * @return boolean
+     * @return bool
      */
-    protected function is_migrations_initialized()
+    protected function is_migrations_initialized(): bool
     {
         $sql = 'SHOW TABLES LIKE "db_migrations"';
         return !!Database::query($sql);
@@ -228,8 +224,6 @@ class Migration
 
     /**
      * initialize the migrations
-     *
-     * @author friend8
      *
      * @return void
      */
@@ -249,13 +243,11 @@ class Migration
     /**
      * check if the migration has been applied
      *
-     * @author friend8
-     *
      * @param string $filename
      *
-     * @return boolean
+     * @return bool
      */
-    protected function is_migration_applied($filename)
+    protected function is_migration_applied(string $filename): bool
     {
         $sql = '
             SELECT IF (`status` = "applied", 1, 0)
@@ -268,13 +260,11 @@ class Migration
     /**
      * mark the migration as applied
      *
-     * @author friend8
-     *
      * @param string $filename
      *
      * @return void
      */
-    protected function mark_migration_applied($filename)
+    protected function mark_migration_applied(string $filename)
     {
         $sql = '
             INSERT INTO `db_migrations`
@@ -288,13 +278,11 @@ class Migration
     /**
      * mark the migration as unapplied
      *
-     * @author friend8
-     *
      * @param string $filename
      *
      * @return void
      */
-    protected function mark_migration_unapplied($filename)
+    protected function mark_migration_unapplied(string $filename)
     {
         $sql = '
             UPDATE `db_migrations`

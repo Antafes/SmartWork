@@ -39,10 +39,10 @@
  * @param array $params
  * @param Smarty_Internal_Template $template
  */
-function smarty_function_include_css($params, $template)
+function smarty_function_include_css(array $params, Smarty_Internal_Template $template)
 {
     $globalConfig = \SmartWork\GlobalConfig::getInstance();
-    if ($_SESSION['css']['file'])
+    if (array_key_exists('file', $_SESSION['css']))
     {
         foreach ($_SESSION['css']['file'] as $file)
         {
@@ -57,7 +57,7 @@ function smarty_function_include_css($params, $template)
         }
     }
 
-    if ($_SESSION['css']['script'])
+    if (array_key_exists('script', $_SESSION['css']))
     {
         foreach ($_SESSION['css']['script'] as $script)
         {

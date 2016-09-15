@@ -43,7 +43,7 @@
  * @param array $params
  * @param Smarty_Internal_Template $template
  */
-function smarty_function_load_js($params, Smarty_Internal_Template $template)
+function smarty_function_load_js(array $params, Smarty_Internal_Template $template)
 {
     if (!in_array('file', array_keys($params))
         && !in_array('script', array_keys($params))

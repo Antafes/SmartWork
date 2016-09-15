@@ -30,10 +30,12 @@
  * Purpose:  encode an array or an object as a json string
  *
  * @author friend8 <map@wafriv.de>
- * @param string $format format string
+ * @param string $string  format string
+ * @param int    $options json encode options
+ * @param int    $depth   maximum depth that is parsed
  * @return string formatted string
  */
-function smarty_modifier_json_encode($string, $options = 0, $depth = 512)
+function smarty_modifier_json_encode(string $string, int $options = 0, int $depth = 512): string
 {
     return json_encode($string, $options, $depth);
 }

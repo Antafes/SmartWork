@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of SmartWork.
  *
@@ -29,7 +30,7 @@
  * @return void
  * @deprecated since version 1.1
  */
-function redirect($location)
+function redirect(string $location)
 {
     \SmartWork\Utility\General::redirect($location);
 }
@@ -42,7 +43,7 @@ function redirect($location)
  * @return boolean
  * @deprecated since version 1.1
  */
-function classLoad($name)
+function classLoad(string $name)
 {
     \SmartWork\Utility\General::classLoad($name);
 }

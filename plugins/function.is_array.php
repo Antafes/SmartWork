@@ -42,13 +42,17 @@
  * @param array
  * @param Smarty
  */
-function smarty_function_is_array($params, $smarty)
+function smarty_function_is_array(array $params, Smarty $smarty)
 {
     if (!in_array('var', array_keys($params)))
+    {
         $smarty->trigger_error('explode: missing "var" parameter');
+    }
 
     if (!in_array('assign', array_keys($params)))
+    {
         $smarty->trigger_error('explode: missing "assign" parameter');
+    }
 
     $smarty->assign($params['assign'], is_array($params['var']));
 }

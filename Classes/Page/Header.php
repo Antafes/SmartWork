@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of SmartWork.
  *
@@ -78,7 +79,7 @@ class Header extends \SmartWork\Page
      */
     protected function createMenu()
     {
-        if ($_SESSION['userId'])
+        if (array_key_exists('userId', $_SESSION) && $_SESSION['userId'])
         {
             $user = \SmartWork\User::getUserById($_SESSION['userId']);
             $this->template->assign('isAdmin', $user->getAdmin());

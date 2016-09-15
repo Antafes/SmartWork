@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of SmartWork.
  *
@@ -56,7 +57,7 @@ class Language extends \SmartWork\Model
      *
      * @return \self
      */
-    public static function getLanguageByIso2Code($iso2code)
+    public static function getLanguageByIso2Code(string $iso2code): Language
     {
         $sql = '
             SELECT languageId, language, iso2code
@@ -73,11 +74,11 @@ class Language extends \SmartWork\Model
     /**
      * Get a language by id.
      *
-     * @param integer $id
+     * @param int $id
      *
      * @return \self
      */
-    public static function loadById($id)
+    public static function loadById(int $id): self
     {
         $sql = '
             SELECT
@@ -97,9 +98,9 @@ class Language extends \SmartWork\Model
     /**
      * Get the language id.
      *
-     * @return integer
+     * @return int
      */
-    public function getLanguageId()
+    public function getLanguageId(): int
     {
         return $this->languageId;
     }
@@ -109,7 +110,7 @@ class Language extends \SmartWork\Model
      *
      * @return string
      */
-    public function getLanguage()
+    public function getLanguage(): string
     {
         return $this->language;
     }
@@ -119,17 +120,8 @@ class Language extends \SmartWork\Model
      *
      * @return string
      */
-    public function getIso2code()
+    public function getIso2code(): string
     {
         return $this->iso2code;
-    }
-
-    /**
-     * Not used
-     *
-     * @return void
-     */
-    public function getAsArray()
-    {
     }
 }

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of SmartWork.
  *
@@ -24,18 +25,20 @@ use SmartWork\Utility\Database;
 use SmartWork\Utility\Migration;
 
 /**
- * handles the MySQL queries
- * if the query is a select, it returns an array if there is only one value, otherwise it returns the value
- * if the query is an update, replace or delete from, it returns the number of affected rows
- * if the query is an insert, it returns the last insert id
+ * Handles the MySQL queries.
+ * If the query is a select, it returns an array if there is only one value, otherwise it returns the value
+ * If the query is an update, replace or delete from, it returns the number of affected rows
+ * If the query is an insert, it returns the last insert id
+ *
  * @author friend8
  * @param string $sql
- * @param bool $noTransform (default = false) if set to "true" the query function always returns a multidimension array
+ * @param bool $noTransform (default = false) If set to "true" the query function always returns a multidimension array
+ * @param bool $raw         (default = false) Set to true to get the raw result
  *
  * @return array|string|int|float
  * @deprecated since version 1.1
  */
-function query($sql, $noTransform = false, $raw = false)
+function query(string $sql, bool $noTransform = false, bool $raw = false)
 {
     return Database::query($sql, $noTransform, $raw);
 }
@@ -48,7 +51,7 @@ function query($sql, $noTransform = false, $raw = false)
  * @return mixed
  * @deprecated since version 1.1
  */
-function query_raw($sql)
+function query_raw(string $sql)
 {
     return Database::query_raw($sql);
 }
@@ -96,12 +99,13 @@ function transactionRollback()
  * Escapes and wraps the given value. If it's an array, all elements will be
  * escaped separately.
  *
- * @param mixed $value
+ * @param mixed $value The value to escape
+ * @param bool  $wrap  (default = true) Whether to wrap the value with quotations marks
  *
- * @return String
+ * @return string|array
  * @deprecated since version 1.1
  */
-function sqlval($value, $wrap = true)
+function sqlval($value, bool $wrap = true)
 {
     return Database::sqlval($value, $wrap);
 }
@@ -118,7 +122,7 @@ function sqlval($value, $wrap = true)
  * @return void
  * @deprecated since version 1.1
  */
-function connect()
+function connect(): mysqli
 {
 }
 
@@ -132,7 +136,7 @@ function connect()
  * @return string
  * @deprecated since version 1.1
  */
-function migration_manager($post)
+function migration_manager(array $post): string
 {
     $migration = new Migration();
     return $migration->manager($post);
@@ -146,7 +150,7 @@ function migration_manager($post)
  * @return void
  * @deprecated since version 1.1
  */
-function is_migrations_initialized()
+function is_migrations_initialized(): bool
 {
 }
 
@@ -172,7 +176,7 @@ function initialize_migration()
  * @return void
  * @deprecated since version 1.1
  */
-function is_migration_applied($filename)
+function is_migration_applied(string $filename): bool
 {
 }
 
@@ -186,7 +190,7 @@ function is_migration_applied($filename)
  * @return void
  * @deprecated since version 1.1
  */
-function mark_migration_applied($filename)
+function mark_migration_applied(string $filename)
 {
 }
 
@@ -200,6 +204,6 @@ function mark_migration_applied($filename)
  * @return void
  * @deprecated since version 1.1
  */
-function mark_migration_unapplied($filename)
+function mark_migration_unapplied(string $filename)
 {
 }

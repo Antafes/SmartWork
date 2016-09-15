@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of SmartWork.
  *
@@ -28,12 +29,17 @@ session_start();
 $globalConfig = \SmartWork\GlobalConfig::getInstance();
 $display = new \SmartWork\Display($globalConfig->getConfig('unAllowedPages'));
 
-$page = $_GET['page'];
+if (array_key_exists('page', $_GET))
+{
+    $page = $_GET['page'];
+}
 
-if (!$page)
+if (!isset($page) && empty($page))
+{
     $page = 'Index';
+}
 
-if ($_GET['language'])
+if (array_key_exists('language', $_GET) && !empty($_GET['language']))
 {
     $translator = \SmartWork\Translator::getInstance();
     $translator->setCurrentLanguage($_GET['language']);
