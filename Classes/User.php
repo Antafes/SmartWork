@@ -21,6 +21,7 @@
  * @license   https://www.gnu.org/licenses/lgpl.html LGPLv3
  */
 namespace SmartWork;
+use \SmartWork\Utility\Database;
 
 /**
  * User class for login, registration and check of privileges.
@@ -84,10 +85,10 @@ class User
                 active,
                 `admin`
             FROM users
-            WHERE userId = '.\sqlval($userId).'
+            WHERE userId = ' . Database::sqlval($userId) . '
                 AND !deleted
         ';
-        $userData = query($sql);
+        $userData = Database::query($sql);
 
         $object = new self();
         $object->userId        = intval($userData['userId']);
@@ -117,11 +118,10 @@ class User
                 `name`,
                 password
             FROM users
-            WHERE name = '.\sqlval($name).'
+            WHERE name = ' . Database::sqlval($name) . '
                 AND !deleted
         ';
-        $userData = query($sql);
-
+        $userData = Database::query($sql);
         $passwordParts = explode('$', $userData['password']);
 
         $encPassword = self::encryptPassword($password, $passwordParts['2']);
@@ -131,7 +131,9 @@ class User
             return self::getUserById($userData['userId']);
         }
         else
+        {
             return false;
+        }
     }
 
     /**
@@ -146,10 +148,10 @@ class User
         $sql = '
             SELECT `userId`
             FROM users
-            WHERE email = '.\sqlval($mail).'
+            WHERE email = ' . Database::sqlval($mail) . '
                 AND !deleted
         ';
-        $userId = query($sql);
+        $userId = Database::query($sql);
 
         if (!$userId)
         {
@@ -171,11 +173,11 @@ class User
     {
         $sql = '
             INSERT INTO users
-            SET name = '.\sqlval($name).',
-                password = '.\sqlval(self::encryptPassword($password, uniqid())).',
-                email = '.\sqlval($email).'
+            SET name = ' . Database::sqlval($name) . ',
+                password = ' . Database::sqlval(self::encryptPassword($password, uniqid())) . ',
+                email = ' . Database::sqlval($email) . '
         ';
-        return query($sql);
+        return Database::query($sql);
     }
 
     /**
@@ -190,9 +192,9 @@ class User
         $sql = '
             SELECT COUNT(*)
             FROM users
-            WHERE name = '.\sqlval($name).'
+            WHERE name = ' . Database::sqlval($name) . '
         ';
-        return !!query($sql);
+        return !!Database::query($sql);
     }
 
     /**
@@ -207,9 +209,9 @@ class User
         $sql = '
             SELECT COUNT(*)
             FROM users
-            WHERE email = '.\sqlval($email).'
+            WHERE email = ' . Database::sqlval($email) . '
         ';
-        return !!query($sql);
+        return !!Database::query($sql);
     }
 
     /**
@@ -222,8 +224,8 @@ class User
      */
     protected static function encryptPassword($password, $salt)
     {
-        $saltedPassword = $salt ? $password.'-'.$salt : $password;
-        return '$m5$'.$salt.'$'.md5($saltedPassword);
+        $saltedPassword = $salt ? $password . '-' . $salt : $password;
+        return '$m5$' . $salt . '$' . md5($saltedPassword);
     }
 
     /**
@@ -298,10 +300,10 @@ class User
         $this->name = $name;
         $sql = '
             UPDATE users
-            SET name = '.\sqlval($this->name).'
-            WHERE userId = '.\sqlval($this->userId).'
+            SET name = ' . Database::sqlval($this->name) . '
+            WHERE userId = ' . Database::sqlval($this->userId) . '
         ';
-        query($sql);
+        Database::query($sql);
     }
 
     /**
@@ -317,10 +319,10 @@ class User
         $this->password = self::encryptPassword($password, $passwordParts[2]);
         $sql = '
             UPDATE users
-            SET password = '.\sqlval($this->password).'
-            WHERE userId = '.\sqlval($this->userId).'
+            SET password = ' . Database::sqlval($this->password) . '
+            WHERE userId = ' . Database::sqlval($this->userId) . '
         ';
-        query($sql);
+        Database::query($sql);
     }
 
     /**
@@ -335,10 +337,10 @@ class User
         $this->email = $email;
         $sql = '
             UPDATE users
-            SET email = '.\sqlval($this->email).'
-            WHERE userId = '.\sqlval($this->userId).'
+            SET email = ' . Database::sqlval($this->email) . '
+            WHERE userId = ' . Database::sqlval($this->userId) . '
         ';
-        query($sql);
+        Database::query($sql);
     }
 
     /**
@@ -351,9 +353,9 @@ class User
         $sql = '
             UPDATE users
             SET active = 1
-            WHERE userId = '.\sqlval($this->userId).'
+            WHERE userId = ' . Database::sqlval($this->userId) . '
         ';
-        query($sql);
+        Database::query($sql);
         $this->active = true;
     }
 
@@ -369,10 +371,10 @@ class User
         $this->admin = $admin;
         $sql = '
             UPDATE users
-            SET admin = '.\sqlval($admin ? 1 : 0).'
-            WHERE userId = '.\sqlval($this->userId).'
+            SET admin = ' . Database::sqlval($admin ? 1 : 0) . '
+            WHERE userId = ' . Database::sqlval($this->userId) . '
         ';
-        query($sql);
+        Database::query($sql);
     }
 
     /**
@@ -387,10 +389,10 @@ class User
         $this->languageId = $languageId;
         $sql = '
             UPDATE users
-            SET `languageId` = '.\sqlval($languageId).'
-            WHERE `userId` = '.\sqlval($this->userId).'
+            SET `languageId` = ' . Database::sqlval($languageId) . '
+            WHERE `userId` = ' . Database::sqlval($this->userId) . '
         ';
-        query($sql);
+        Database::query($sql);
     }
 
     /**
@@ -405,10 +407,12 @@ class User
         $passwordParts = explode('$', $this->password);
         $sql = '
             UPDATE users
-            SET password = '.\sqlval($this->encryptPassword($password, $passwordParts[2])).'
-            WHERE `userId` = '.\sqlval($this->userId).'
+            SET password = ' . Database::sqlval(
+                $this->encryptPassword($password, $passwordParts[2])
+            ) . '
+            WHERE `userId` = ' . Database::sqlval($this->userId) . '
         ';
-        query($sql);
+        Database::query($sql);
 
         \Helper\Mail::send(
             array($this->email, $this->name),

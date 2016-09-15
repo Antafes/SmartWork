@@ -20,6 +20,8 @@
  * @copyright (c) 2015, Marian Pollzien
  * @license   https://www.gnu.org/licenses/lgpl.html LGPLv3
  */
+require_once(__DIR__.'/Classes/Utility/General.php');
+// This is only for fallback.
 require_once(__DIR__.'/util/general.php');
 
 //access data for the database
@@ -44,6 +46,7 @@ $GLOBALS['config']['dir_ws_system'] = '';
 
 $GLOBALS['config']['migrations_dir'] = '';
 $GLOBALS['config']['dir_ws_migrations'] = '';
+$GLOBALS['config']['dir_fs_system'] = __DIR__;
 
 //mail
 $GLOBALS['mail']['sender'] = 'test@test.org';
@@ -69,4 +72,4 @@ elseif (file_exists(__DIR__.'/../config.php'))
 }
 
 //autoloader
-spl_autoload_register('classLoad');
+spl_autoload_register('\\SmartWork\\Utility\\General::classLoad');

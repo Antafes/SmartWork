@@ -22,6 +22,7 @@
  * @license    https://www.gnu.org/licenses/lgpl.html LGPLv3
  */
 namespace SmartWork\Model;
+use \SmartWork\Utility\Database;
 
 /**
  * Model class for the languages used with SmartWork.
@@ -60,10 +61,9 @@ class Language extends \SmartWork\Model
         $sql = '
             SELECT languageId, language, iso2code
             FROM languages
-            WHERE iso2code = '.\sqlval($iso2code).'
+            WHERE iso2code = ' . Database::sqlval($iso2code) . '
         ';
-        $data = query($sql);
-
+        $data = Database::query($sql);
         $language = new self();
         $language->fill($data);
 
@@ -80,11 +80,14 @@ class Language extends \SmartWork\Model
     public static function loadById($id)
     {
         $sql = '
-            SELECT languageId, language, iso2code
+            SELECT
+                languageId,
+                language,
+                iso2code
             FROM languages
-            WHERE languageId = '.\sqlval($id).'
+            WHERE languageId = ' . Database::sqlval($id) . '
         ';
-        $data = query($sql);
+        $data = Database::query($sql);
         $language = new self();
         $language->fill($data);
 

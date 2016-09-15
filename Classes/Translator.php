@@ -21,6 +21,7 @@
  * @license   https://www.gnu.org/licenses/lgpl.html LGPLv3
  */
 namespace SmartWork;
+use \SmartWork\Utility\Database;
 
 /**
  * Translator class
@@ -101,11 +102,11 @@ class Translator
 
         $sql = '
             INSERT INTO translations
-            SET languageId = '.\sqlval($language).',
-                `key` = '.\sqlval($key).',
-                `value` = '.\sqlval($value).'
+            SET languageId = ' . Database::sqlval($language) . ',
+                `key` = ' . Database::sqlval($key) . ',
+                `value` = ' . Database::sqlval($value) . '
         ';
-        $translationId = query($sql);
+        $translationId = Database::query($sql);
 
         if ($translationId)
         {
@@ -126,7 +127,7 @@ class Translator
             FROM languages
             WHERE !deleted
         ';
-        $languages = query($sql, true);
+        $languages = Database::query($sql, true);
 
         foreach ($languages as $language)
         {
@@ -149,10 +150,10 @@ class Translator
             $sql = '
                 SELECT `key`, `value`
                 FROM translations
-                WHERE languageId = '.\sqlval($language->getLanguageId()).'
+                WHERE languageId = ' . Database::sqlval($language->getLanguageId()) . '
                     AND !deleted
             ';
-            $translations = query($sql, true);
+            $translations = Database::query($sql, true);
 
             foreach ($translations as $translation)
             {
@@ -249,20 +250,28 @@ class Translator
     public function gt($key, $arguments = array())
     {
         if (is_object($key) || is_bool($key) || is_float($key))
+        {
             return $key;
+        }
 
         if (is_array($key))
         {
             foreach ($key as &$item)
+            {
                 $item = $this->gt($item);
+            }
 
             return $key;
         }
 
         if (array_key_exists($key, $this->translations[$this->currentLanguage]))
+        {
             return $this->replace($this->translations[$this->currentLanguage][$key], $arguments);
+        }
         else
+        {
             return $key;
+        }
     }
 
     /**

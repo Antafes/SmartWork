@@ -24,6 +24,5 @@ require_once(__DIR__.'/../config.default.php');
 require_once(__DIR__.'/../util/mysql.php');
 require_once(__DIR__.'/../util/general.php');
 
-$result = migration_manager($_REQUEST);
-
-echo $result;
+$migration = new Utility\Migration();
+echo $migration->manager($_REQUEST);

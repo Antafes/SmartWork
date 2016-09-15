@@ -27,11 +27,11 @@
  * @param string $location
  *
  * @return void
+ * @deprecated since version 1.1
  */
 function redirect($location)
 {
-    header('Location: '.$location);
-    die();
+    \SmartWork\Utility\General::redirect($location);
 }
 
 /**
@@ -40,56 +40,9 @@ function redirect($location)
  * @param string $name
  *
  * @return boolean
+ * @deprecated since version 1.1
  */
 function classLoad($name)
 {
-    if ($name == 'Smarty')
-    {
-        require_once(__DIR__.'/../smarty3/Smarty.class.php');
-        return true;
-    }
-    elseif ($name == 'PHPMailer')
-    {
-        require_once(__DIR__.'/../phpmailer/class.phpmailer.php');
-        return true;
-    }
-
-    $dirs = array(__DIR__.'/../../Classes/');
-    $pieces = explode('\\', $name);
-
-    if ($pieces[0] === 'SmartWork')
-    {
-        $dirs[0] = __DIR__.'/../Classes/';
-        array_shift($pieces);
-    }
-
-    if (isset($GLOBALS['autoload']))
-    {
-        $additionalDirs = $GLOBALS['autoload'];
-
-        if (!is_array($additionalDirs))
-        {
-            $additionalDirs = array($additionalDirs);
-        }
-
-        $dirs = array_merge($dirs, $additionalDirs);
-    }
-
-    $class = array_pop($pieces);
-
-    foreach ($dirs as $dir)
-    {
-        if ($pieces)
-        {
-            $dir .= implode('/', $pieces) . '/';
-        }
-
-        if(file_exists($dir . $class . '.php'))
-        {
-            require_once($dir . $class . '.php');
-            return true;
-        }
-    }
-
-    return false;
+    \SmartWork\Utility\General::classLoad($name);
 }
