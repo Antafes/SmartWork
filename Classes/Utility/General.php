@@ -23,9 +23,11 @@
 namespace SmartWork\Utility;
 
 /**
- * Description of General
+ * Utility class to handle general things like the class loader or redirects.
  *
- * @author Marian Pollzien <map@wafriv.de>
+ * @package    SmartWork
+ * @subpackage Utility
+ * @author     Marian Pollzien <map@wafriv.de>
  */
 class General
 {

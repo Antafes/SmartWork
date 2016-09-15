@@ -23,9 +23,11 @@
 namespace SmartWork\Utility;
 
 /**
- * Description of Migration
+ * Utility class for handling the database migrations.
  *
- * @author Marian Pollzien <map@wafriv.de>
+ * @package    SmartWork
+ * @subpackage Utility
+ * @author     Marian Pollzien <map@wafriv.de>
  */
 class Migration
 {

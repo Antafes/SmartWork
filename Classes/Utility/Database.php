@@ -23,12 +23,19 @@
 namespace SmartWork\Utility;
 
 /**
- * Description of Database
+ * Utility class to handle the database connection and queries to the database.
  *
- * @author Marian Pollzien <map@wafriv.de>
+ * @package    SmartWork
+ * @subpackage Utility
+ * @author     Marian Pollzien <map@wafriv.de>
  */
 class Database
 {
+    /**
+     * Static variable for holding the database connection.
+     *
+     * @var \mysqli
+     */
     protected static $mysql;
 
     /**
