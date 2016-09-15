@@ -38,7 +38,7 @@ class General
      *
      * @return void
      */
-    public static function redirect($location)
+    public static function redirect(string $location)
     {
         \header('Location: '.$location);
         die();
@@ -51,7 +51,7 @@ class General
      *
      * @return boolean
      */
-    public static function classLoad($name)
+    public static function classLoad(string $name)
     {
         $dirFsSystem = $GLOBALS['config']['dir_fs_system'];
         if ($name == 'Smarty')

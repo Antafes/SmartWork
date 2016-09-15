@@ -46,7 +46,10 @@ abstract class Model
      *
      * @return array
      */
-    public abstract function getAsArray();
+    public function getAsArray(): array
+    {
+        return \get_object_vars($this);
+    }
 
     /**
      * Fill the objects properties with the given data and cast them if possible to the best
