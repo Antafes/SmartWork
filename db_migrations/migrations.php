@@ -24,5 +24,5 @@ require_once(__DIR__.'/../config.default.php');
 require_once(__DIR__.'/../util/mysql.php');
 require_once(__DIR__.'/../util/general.php');
 
-$migration = new Utility\Migration();
+$migration = new SmartWork\Utility\Migration();
 echo $migration->manager($_REQUEST);
