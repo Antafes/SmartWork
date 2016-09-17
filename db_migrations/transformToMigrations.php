@@ -74,11 +74,11 @@ if ($_POST['sql'] || $_POST['sql_file'])
 
             if (substr($sqlString, 0, 4) === 'DROP')
             {
-                echo "\n\t\t".'query_raw(\''."\n".$sqlString."\t\t".'\');';
+                echo "\n\t\t".'SmartWork\Utility\Database::query_raw(\''."\n".$sqlString."\t\t".'\');';
             }
             else
             {
-                echo "\n\n\t\t".'$results[] = query_raw(\''."\n".$sqlString."\t\t".'\');';
+                echo "\n\n\t\t".'$results[] = SmartWork\Utility\Database::query_raw(\''."\n".$sqlString."\t\t".'\');';
             }
         }
     }

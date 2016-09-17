@@ -17,6 +17,6 @@
             <strong>{$translator->gt('title')}</strong>
         </div>
         <div id="head">
-            {include file='menu.tpl'}
+            {include file='menu.tpl' pages=$pages}
             <div class="clear"></div>
         </div>

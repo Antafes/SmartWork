@@ -66,14 +66,32 @@ class General
         }
 
         $dirs = array($dirFsSystem . '/../Classes/');
+
+        if ($GLOBALS['config']['useModules'])
+        {
+            foreach ($GLOBALS['config']['modules'] as $module)
+            {
+                $dirs[] = $dirFsSystem . '/../Modules/' . $module . '/Classes/';
+            }
+        }
+
         $pieces = \explode('\\', $name);
 
+        // Check for SmartWork classes
         if ($pieces[0] === 'SmartWork')
         {
             $dirs[0] = $dirFsSystem . '/Classes/';
-            \array_shift($pieces);
+
+            if ($GLOBALS['config']['useModules'])
+            {
+                foreach ($GLOBALS['config']['modules'] as $module)
+                {
+                    $dirs[] = $dirFsSystem . '/Modules/' . $module . '/Classes/';
+                }
+            }
         }
 
+        // Check for additional auto load directories.
         if (isset($GLOBALS['autoload']))
         {
             $additionalDirs = $GLOBALS['autoload'];
@@ -87,6 +105,7 @@ class General
         }
 
         $class = \array_pop($pieces);
+        $pieces = self::tidyNamespaces($pieces);
 
         foreach ($dirs as $dir)
         {
@@ -103,5 +122,77 @@ class General
         }
 
         return false;
+    }
+
+    /**
+     * Tidy up the namespaces array.
+     * Removes SmartWork and all modules from the array.
+     *
+     * @param array $parts
+     *
+     * @return array
+     */
+    protected static function tidyNamespaces($parts)
+    {
+        $tidy = array();
+
+        foreach ($parts as $part)
+        {
+            if ($part == 'SmartWork'
+                || ($GLOBALS['config']['useModules'] && in_array($part, $GLOBALS['config']['modules']))
+            )
+            {
+                continue;
+            }
+
+            $tidy[] = $part;
+        }
+
+        return $tidy;
+    }
+
+    /**
+     * Add a menu entry to $GLOBALS['config']['menu'].
+     *
+     * @param string $page     The page key to add.
+     * @param int    $show     On which state the menu entry should be shown.
+     *                         -1 -> always
+     *                         0  -> logged out (only if the UserSystem module is loaded)
+     *                         1  -> logged in (only if the UserSystem module is loaded)
+     *                         2  -> logged in as admin (only if the UserSystem module is loaded)
+     * @param int    $default  Define the default page for the above show system, null to ommit.
+     * @param int    $position The position in the array, default is to add at the end, but before
+     *                         the logout and imprint.
+     *
+     * @return void
+     */
+    public static function addMenuPage($page, $show, $default = null, $position = null)
+    {
+        $menu = $GLOBALS['config']['menu'];
+        $imprint = array_pop($menu);
+        $logout = array_pop($menu);
+
+        $entry = array(
+            'page' => $page,
+            'show' => $show,
+        );
+
+        if ($default !== null)
+        {
+            $entry['default'] = $default;
+        }
+
+        if ($position !== null)
+        {
+            $menu[$position] = $entry;
+        }
+        else
+        {
+            $menu[count($menu)] = $entry;
+        }
+
+        $menu[9998] = $logout;
+        $menu[9999] = $imprint;
+        $GLOBALS['config']['menu'] = $menu;
     }
 }

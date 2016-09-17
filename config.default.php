@@ -55,6 +55,59 @@ $GLOBALS['config']['unAllowedPages'] = array(
     'Header',
 );
 
+// Modules
+// Order of the entries defines the load order of the modules
+$GLOBALS['config']['useModules'] = true;
+$GLOBALS['config']['modules'] = array(
+    0 => 'Base',
+    1 => 'Index',
+    2 => 'UserSystem',
+    3 => 'Imprint',
+);
+
+// Menu items
+// To add new menu items, use \SmartWork\Utility\General::addMenuPage().
+$GLOBALS['config']['menu'] = array(
+    array(
+        'page' => 'Login',
+        'show' => 0,
+        'default' => 0,
+    ),
+    array(
+        'page' => 'Register',
+        'show' => 0,
+    ),
+    array(
+        'page' => 'Index',
+        'show' => 1,
+        'default' => 1,
+    ),
+    array(
+        'page' => 'Admin',
+        'show' => 2,
+    ),
+    9998 => array(
+        'page' => 'Logout',
+        'show' => 1,
+    ),
+    9999 => array(
+        'page' => 'Imprint',
+        'show' => -1,
+    ),
+);
+
+// Imprint configuration
+// This is an array of arrays with the following structure:
+// array(
+//     'name' => '',
+//     'street' => '',
+//     'number' => '',
+//     'zip' => '',
+//     'city' => '',
+//     'email' => '',
+// )
+$GLOBALS['config']['imprint'] = array();
+
 // load the default config of the page, if existing
 if (file_exists(__DIR__.'/../config.default.php'))
 {

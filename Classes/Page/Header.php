@@ -78,10 +78,61 @@ class Header extends \SmartWork\Page
      */
     protected function createMenu()
     {
+        $globalConfig = \SmartWork\GlobalConfig::getInstance();
+        $useModules = $globalConfig->getConfig('useModules');
+        $userSystemActive = in_array('UserSystem', $globalConfig->getConfig('modules'));
+        $configPages = $globalConfig->getConfig('menu');
+        ksort($configPages);
+
         if ($_SESSION['userId'])
         {
             $user = \SmartWork\User::getUserById($_SESSION['userId']);
             $this->template->assign('isAdmin', $user->getAdmin());
         }
+
+        $pages = array();
+        foreach ($configPages as $page)
+        {
+            if ($page['show'] === -1 || (!$useModules && $page['show'] !== 2))
+            {
+                $pages[] = $page + array(
+                    'key' => strtolower($page['page']),
+                    'active' => !$_GET['page'] && $page['default'] === 1 || $_GET['page'] == $page['page'],
+                );
+                continue;
+            }
+
+            if ($useModules)
+            {
+                if ($userSystemActive && $_SESSION['userId'] && $page['show'] === 1)
+                {
+                    $pages[] = $page + array(
+                        'key' => strtolower($page['page']),
+                        'active' => !$_GET['page'] && $page['default'] === 1 || $_GET['page'] == $page['page'],
+                    );
+                    continue;
+                }
+
+                if ($userSystemActive && !$_SESSION['userId'] && $page['show'] === 0)
+                {
+                    $pages[] = $page + array(
+                        'key' => strtolower($page['page']),
+                        'active' => !$_GET['page'] && $page['default'] === 1 || $_GET['page'] == $page['page'],
+                    );
+                    continue;
+                }
+
+                if ($userSystemActive && $_SESSION['userId'] && $user->getAdmin() && $page['show'] === 2)
+                {
+                    $pages[] = $page + array(
+                        'key' => strtolower($page['page']),
+                        'active' => !$_GET['page'] && $page['default'] === 1 || $_GET['page'] == $page['page'],
+                    );
+                    continue;
+                }
+            }
+        }
+
+        $this->getTemplate()->assign('pages', $pages);
     }
 }

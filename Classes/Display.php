@@ -96,6 +96,27 @@ class Display
 
         // Create the page itself
         $class = '\\Page\\'.$pageName;
+
+        if ($this->globalConfig->getConfig('useModules')
+            && !class_exists($class)
+        )
+        {
+            foreach ($this->globalConfig->getConfig('modules') as $module)
+            {
+                if (class_exists('\\' . $module . '\\Page\\' . $pageName))
+                {
+                    $class = '\\' . $module . '\\Page\\' . $pageName;
+                    break;
+                }
+
+                if (class_exists('\\SmartWork\\' . $module . '\\Page\\' . $pageName))
+                {
+                    $class = '\\SmartWork\\' . $module . '\\Page\\' . $pageName;
+                    break;
+                }
+            }
+        }
+
         /* @var $page \SmartWork\Page */
         $page = new $class();
 
@@ -152,7 +173,12 @@ class Display
             return 'Index';
         }
 
-        if (!$_SESSION['userId'] && !in_array($pageName, $this->pagesWithoutLogin))
+        $useModules = $this->globalConfig->getConfig('useModules');
+        $modules = $this->globalConfig->getConfig('modules');
+
+        if ($useModules && in_array('UserSystem', $modules) && !$_SESSION['userId']
+            && !in_array($pageName, $this->pagesWithoutLogin)
+        )
         {
             $pageName = 'Login';
         }

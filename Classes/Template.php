@@ -57,6 +57,18 @@ class Template
             'templates/',
             __DIR__.'/../templates/',
         ));
+        $globalConfig = GlobalConfig::getInstance();
+
+        if ($globalConfig->getConfig('useModules'))
+        {
+            foreach ($globalConfig->getConfig('modules') as $module)
+            {
+                $this->smarty->addTemplateDir(array(
+                    $globalConfig->getConfig('dir_fs_system') . '/../Modules/' . $module . '/Templates/',
+                    __DIR__ . '/../Modules/' . $module . '/Templates/',
+                ));
+            }
+        }
 
         if (file_exists(__DIR__.'/../plugins/'))
         {
