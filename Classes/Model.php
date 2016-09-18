@@ -34,6 +34,8 @@ abstract class Model
     /**
      * Load the model by a given id.
      *
+     * @param int $id
+     *
      * @return \self
      */
     public abstract static function loadById($id);

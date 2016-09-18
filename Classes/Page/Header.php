@@ -97,7 +97,7 @@ class Header extends \SmartWork\Page
             {
                 $pages[] = $page + array(
                     'key' => strtolower($page['page']),
-                    'active' => !$_GET['page'] && $page['default'] === 1 || $_GET['page'] == $page['page'],
+                    'active' => !$_GET['page'] && $page['default'] === -1 || $_GET['page'] == $page['page'],
                 );
                 continue;
             }
@@ -117,7 +117,7 @@ class Header extends \SmartWork\Page
                 {
                     $pages[] = $page + array(
                         'key' => strtolower($page['page']),
-                        'active' => !$_GET['page'] && $page['default'] === 1 || $_GET['page'] == $page['page'],
+                        'active' => !$_GET['page'] && $page['default'] === 0 || $_GET['page'] == $page['page'],
                     );
                     continue;
                 }
@@ -126,7 +126,7 @@ class Header extends \SmartWork\Page
                 {
                     $pages[] = $page + array(
                         'key' => strtolower($page['page']),
-                        'active' => !$_GET['page'] && $page['default'] === 1 || $_GET['page'] == $page['page'],
+                        'active' => !$_GET['page'] && $page['default'] === 2 || $_GET['page'] == $page['page'],
                     );
                     continue;
                 }

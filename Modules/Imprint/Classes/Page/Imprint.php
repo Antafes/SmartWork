@@ -30,11 +30,20 @@ namespace SmartWork\Imprint\Page;
  */
 class Imprint extends \SmartWork\Page
 {
+    /**
+     * Constructor for the page class.
+     * Sets the template to use.
+     */
     public function __construct()
     {
         parent::__construct('imprint');
     }
 
+    /**
+     * Fetches the configured imprint entries and assigns them to the template.
+     *
+     * @return void
+     */
     public function process()
     {
         $this->getTemplate()->assign(
