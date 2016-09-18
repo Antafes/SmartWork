@@ -38,7 +38,7 @@ abstract class Model
      *
      * @return \self
      */
-    public abstract static function loadById($id);
+    public abstract static function loadById(int $id);
 
     /**
      * Get the models properties as array.

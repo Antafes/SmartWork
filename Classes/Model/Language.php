@@ -77,7 +77,7 @@ class Language extends \SmartWork\Model
      *
      * @return \self
      */
-    public static function loadById(int $id): self
+    public static function loadById(int $id)
     {
         $sql = '
             SELECT
