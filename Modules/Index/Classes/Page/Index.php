@@ -32,20 +32,20 @@ namespace SmartWork\Index\Page;
  */
 class Index extends \SmartWork\Page
 {
-	/**
-	 * Set the used template.
-	 */
-	public function __construct()
-	{
-		parent::__construct('index');
-	}
+    /**
+     * Set the used template.
+     */
+    public function __construct()
+    {
+        parent::__construct('index');
+    }
 
-	/**
-	 * Add javascripts and show the list of the images of the currently logged in user.
-	 *
-	 * @return void
-	 */
-	public function process()
-	{
-	}
+    /**
+     * Add javascripts and show the list of the images of the currently logged in user.
+     *
+     * @return void
+     */
+    public function process()
+    {
+    }
 }

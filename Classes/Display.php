@@ -62,7 +62,7 @@ class Display
      *
      * @param array $unallowedPages
      */
-    function __construct($unallowedPages = array())
+    function __construct(array $unallowedPages = array())
     {
         $this->globalConfig = GlobalConfig::getInstance();
         $this->unallowedPages = array_merge($unallowedPages, $this->unallowedPages);
@@ -90,7 +90,7 @@ class Display
      *
      * @return void
      */
-    public function showPage($pageName)
+    public function showPage(string $pageName)
     {
         $pageName = $this->checkPage($pageName);
 
@@ -146,7 +146,7 @@ class Display
      *
      * @return string
      */
-    protected function checkPage($pageName)
+    protected function checkPage(string $pageName): string
     {
         $checkPageHooks = $this->globalConfig->getHook(
             array(

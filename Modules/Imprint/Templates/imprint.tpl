@@ -1,6 +1,6 @@
 {include file="header.tpl"}
 <div id="imprint">
-	<div class="row">
+    <div class="row">
         <h2>{$translator->gt('imprint')}</h2>
         {foreach from=$imprints item="imprint"}
             <div class="imprintBlock">
@@ -14,6 +14,6 @@
                 </p>
             </div>
         {/foreach}
-	</div>
+    </div>
 </div>
 {include file="footer.tpl"}

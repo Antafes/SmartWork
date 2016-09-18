@@ -30,94 +30,96 @@ namespace SmartWork\UserSystem\Page;
  */
 class Admin extends \SmartWork\Page
 {
-	/**
-	 * Set the template.
-	 */
-	public function __construct()
-	{
-		parent::__construct('admin');
-	}
+    /**
+     * Set the template.
+     */
+    public function __construct()
+    {
+        parent::__construct('admin');
+    }
 
-	/**
-	 * Process the activate, setAdmin and removeAdmin options and show the user list.
-	 *
-	 * @return void
-	 */
-	public function process()
-	{
-		if ($_GET['activate'])
-		{
-			$this->activateUser($_GET['activate']);
-			\SmartWork\Utility\General::redirect('index.php?page=Admin');
-		}
-
-		if ($_GET['setAdmin'])
-		{
-			$this->changeAdminStatus($_GET['setAdmin'], true);
-			\SmartWork\Utility\General::redirect('index.php?page=Admin');
-		}
-
-		if ($_GET['removeAdmin'])
-		{
-			$this->changeAdminStatus($_GET['removeAdmin'], false);
-			\SmartWork\Utility\General::redirect('index.php?page=Admin');
-		}
-
-		$user = \SmartWork\User::getUserById($_SESSION['userId']);
-
-		if (!$user->getAdmin())
+    /**
+     * Process the activate, setAdmin and removeAdmin options and show the user list.
+     *
+     * @return void
+     */
+    public function process()
+    {
+        if ($_GET['activate'])
         {
-			\SmartWork\Utility\General::redirect('index.php?page=Index');
+            $this->activateUser($_GET['activate']);
+            \SmartWork\Utility\General::redirect('index.php?page=Admin');
         }
 
-		$this->template->assign('userList', $this->getUserList());
-	}
-
-	/**
-	 * Get a list with all users that are not deleted.
-	 *
-	 * @return array
-	 */
-	protected function getUserList()
-	{
-		$sql = '
-			SELECT userId
-			FROM users
-			WHERE !deleted
-		';
-		$users = query($sql, true);
-
-		$userList = array();
-		foreach ($users as $user)
+        if ($_GET['setAdmin'])
         {
-			$userList[] = \SmartWork\User::getUserById($user['userId']);
+            $this->changeAdminStatus($_GET['setAdmin'], true);
+            \SmartWork\Utility\General::redirect('index.php?page=Admin');
         }
 
-		return $userList;
-	}
+        if ($_GET['removeAdmin'])
+        {
+            $this->changeAdminStatus($_GET['removeAdmin'], false);
+            \SmartWork\Utility\General::redirect('index.php?page=Admin');
+        }
 
-	/**
-	 * Activate the given user.
-	 *
-	 * @param integer $userId
-	 */
-	protected function activateUser($userId)
-	{
-		$user = \SmartWork\User::getUserById($userId);
-		$user->activate();
-	}
+        $user = \SmartWork\User::getUserById($_SESSION['userId']);
 
-	/**
-	 * Set the admin status of the given user to $status.
-	 *
-	 * @param integer $userId
-	 * @param boolean $status
-	 *
-	 * @return void
-	 */
-	protected function changeAdminStatus($userId, $status)
-	{
-		$user = \SmartWork\User::getUserById($userId);
-		$user->setAdmin($status);
-	}
+        if (!$user->getAdmin())
+        {
+            \SmartWork\Utility\General::redirect('index.php?page=Index');
+        }
+
+        $this->template->assign('userList', $this->getUserList());
+    }
+
+    /**
+     * Get a list with all users that are not deleted.
+     *
+     * @return array
+     */
+    protected function getUserList(): array
+    {
+        $sql = '
+            SELECT userId
+            FROM users
+            WHERE !deleted
+        ';
+        $users = query($sql, true);
+
+        $userList = array();
+        foreach ($users as $user)
+        {
+            $userList[] = \SmartWork\User::getUserById($user['userId']);
+        }
+
+        return $userList;
+    }
+
+    /**
+     * Activate the given user.
+     *
+     * @param int $userId
+     *
+     * @return void
+     */
+    protected function activateUser(int $userId)
+    {
+        $user = \SmartWork\User::getUserById($userId);
+        $user->activate();
+    }
+
+    /**
+     * Set the admin status of the given user to $status.
+     *
+     * @param int  $userId
+     * @param bool $status
+     *
+     * @return void
+     */
+    protected function changeAdminStatus(int $userId, bool $status)
+    {
+        $user = \SmartWork\User::getUserById($userId);
+        $user->setAdmin($status);
+    }
 }

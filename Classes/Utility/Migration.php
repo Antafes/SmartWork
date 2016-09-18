@@ -125,7 +125,7 @@ class Migration
      *
      * @return array
      */
-    protected function getModuleMigrationDirectories()
+    protected function getModuleMigrationDirectories(): array
     {
         if (!$this->globalConfig->getConfig('useModules'))
         {
@@ -174,7 +174,7 @@ class Migration
      *
      * @return void
      */
-    protected function createNew($post)
+    protected function createNew(array $post)
     {
         $migrationFilesDir = $this->getGlobalMigrationsDirectory();
         $webPath = $this->globalConfig->getConfig('dir_ws_migrations');
@@ -225,7 +225,7 @@ HTML;
      *
      * @return string
      */
-    protected function setApplyStatus($post, $migrationFiles)
+    protected function setApplyStatus(array $post,  array$migrationFiles): string
     {
         $webPath = $this->globalConfig->getConfig('dir_ws_migrations');
 
@@ -298,7 +298,7 @@ MSG;
      *
      * @return string
      */
-    protected function showList($migrationFiles)
+    protected function showList(array $migrationFiles): string
     {
         $webPath = $this->globalConfig->getConfig('dir_ws_migrations');
         $message = <<<HTM
@@ -436,7 +436,7 @@ HTM;
      *
      * @return bool
      */
-    protected function isMigrationApplied($filename): bool
+    protected function isMigrationApplied(string $filename): bool
     {
         $sql = '
             SELECT IF (`status` = "applied", 1, 0)
@@ -516,7 +516,7 @@ HTM;
      *
      * @return string
      */
-    protected function getGlobalMigrationsDirectory()
+    protected function getGlobalMigrationsDirectory(): string
     {
         $migrationFilesDir = $this->globalConfig->getConfig('migrations_dir');
 
@@ -535,7 +535,7 @@ HTM;
      *
      * @return string
      */
-    protected function replaceBackslash($path)
+    protected function replaceBackslash(string $path): string
     {
         return str_replace('\\', '/', $path);
     }

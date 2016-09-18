@@ -51,7 +51,7 @@ class General
      *
      * @return boolean
      */
-    public static function classLoad(string $name)
+    public static function classLoad(string $name): bool
     {
         $dirFsSystem = $GLOBALS['config']['dir_fs_system'];
         if ($name == 'Smarty')
@@ -132,7 +132,7 @@ class General
      *
      * @return array
      */
-    protected static function tidyNamespaces($parts)
+    protected static function tidyNamespaces(array $parts): array
     {
         $tidy = array();
 
@@ -166,7 +166,7 @@ class General
      *
      * @return void
      */
-    public static function addMenuPage($page, $show, $default = null, $position = null)
+    public static function addMenuPage(string $page, int $show, int $default = null, int $position = null)
     {
         $menu = $GLOBALS['config']['menu'];
         $imprint = array_pop($menu);
