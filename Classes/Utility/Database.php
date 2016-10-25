@@ -45,7 +45,7 @@ class Database
      * If the query is an update, replace or delete from, it returns the number of affected rows
      * If the query is an insert, it returns the last insert id
      *
-     * @param string $sql
+     * @param string $trimmedSql
      * @param bool $noTransform (default = false) if set to "true" the query function always returns
      *                          a multidimension array
      * @param bool $raw         Whether the result should return the raw mysqli result
@@ -54,47 +54,64 @@ class Database
      */
     public static function query(string $sql, bool $noTransform = false, bool $raw = false)
     {
-        global $debug, $firePHP_debug, $smarty_debug;
+        global $debug;
 
         $mysql = self::connect();
 
-        $sql = ltrim($sql);
-        if ($debug == true)
-        {
-            $res = $mysql->query($sql);
-        }
-        else
-        {
-            $res = @$mysql->query($sql);
-        }
+        $trimmedSql = ltrim($sql);
+        $res = $mysql->query($trimmedSql);
 
         if (!$res && $debug)
         {
             $backtrace = debug_backtrace();
-            $html = '<br />Datenbank Fehler '.$mysql->error.'<br /><br />';
-            $html .= $sql.'<br />';
-            $html .= '<table>';
+            $html = <<<HTML
+<br />Datenbank Fehler $mysql->error<br /><br />
+$trimmedSql<br />
+<table>
+HTML;
+
             foreach ($backtrace as $part)
             {
-                $html .= '<tr><td width="100">';
-                $html .= 'File: </td><td>'.$part['file'];
-                $html .= ' in line '.$part['line'];
-                $html .= '</td></tr><tr><td>';
-                $html .= 'Function: </td><td>'.$part['function'];
-                $html .= '</td></tr><tr><td>';
-                $html .= 'Arguments: </td><td>';
+                $html .= <<<HTML
+<tr>
+    <td width="100">
+        File:
+    </td>
+    <td>
+        {$part['file']} in line {$part['line']}
+    </td>
+</tr>
+<tr>
+    <td>
+        Function:
+    </td>
+    <td>
+        {$part['function']}
+    </td>
+</tr>
+<tr>
+    <td>
+        Arguments:
+    </td>
+    <td>
+HTML;
+
                 foreach ($part['args'] as $args)
+                {
                     $html .= $args.', ';
+                }
+
                 $html = \substr($html, 0, -2);
                 $html .= '</td></tr>';
             }
+
             $html .= '</table>';
             die($html);
         }
 
         if ($res || is_object($res))
         {
-            if (substr($sql,0,6) == "SELECT" || substr($sql, 0, 4) == 'SHOW')
+            if (substr($trimmedSql,0,6) == "SELECT" || substr($trimmedSql, 0, 4) == 'SHOW')
             {
                 $out = array();
 
@@ -129,26 +146,26 @@ class Database
                 return $out;
             }
 
-            if (substr($sql,0,6) == "INSERT" && $noTransform == false)
+            if (substr($trimmedSql,0,6) == "INSERT" && $noTransform == false)
             {
                 return $mysql->insert_id;
             }
-            elseif (substr($sql,0,6) == "INSERT" && $noTransform == true)
+            elseif (substr($trimmedSql,0,6) == "INSERT" && $noTransform == true)
             {
                 return $mysql->affected_rows;
             }
 
-            if (substr($sql,0,6) == "UPDATE")
+            if (substr($trimmedSql,0,6) == "UPDATE")
             {
                 return $mysql->affected_rows;
             }
 
-            if (substr($sql,0,7) == "REPLACE")
+            if (substr($trimmedSql,0,7) == "REPLACE")
             {
                 return $mysql->affected_rows;
             }
 
-            if (substr($sql,0,11) == "DELETE FROM")
+            if (substr($trimmedSql,0,11) == "DELETE FROM")
             {
                 return $mysql->affected_rows;
             }

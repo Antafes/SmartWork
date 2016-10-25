@@ -87,7 +87,7 @@ class Template
      *
      * @return Smarty
      */
-    public function getSmarty()
+    public function getSmarty(): \Smarty
     {
         return $this->smarty;
     }
@@ -96,8 +96,10 @@ class Template
      * Set the template to use.
      *
      * @param string $template
+     *
+     * @return void
      */
-    public function setTemplate($template)
+    public function setTemplate(string$template)
     {
         $this->template = $template;
     }
@@ -106,7 +108,7 @@ class Template
      * Assign a value with a name to the smarty instance.
      *
      * @param array|string $name
-     * @param string       $value
+     * @param mixed        $value
      *
      * @return void
      */
@@ -131,7 +133,7 @@ class Template
      *
      * @return Translator
      */
-    public function getTranslator()
+    public function getTranslator(): Translator
     {
         return $this->translator;
     }
@@ -144,7 +146,7 @@ class Template
      *
      * @return void
      */
-    public function loadJs($file)
+    public function loadJs(string $file)
     {
         if (!is_array($_SESSION['scripts']['file']))
             $_SESSION['scripts']['file'] = array();
@@ -160,7 +162,7 @@ class Template
      *
      * @return void
      */
-    public function loadJsScript($script)
+    public function loadJsScript(string $script)
     {
         $_SESSION['scripts']['script'][] = $script;
     }
@@ -172,7 +174,7 @@ class Template
      *
      * @return void
      */
-    public function loadJsReadyScript($script)
+    public function loadJsReadyScript(string $script)
     {
         $_SESSION['scripts']['ready_script'][] = $script;
     }
@@ -181,11 +183,11 @@ class Template
      * Load a css file in smarty.
      * Use only the filename without ending.
      *
-     * @param String $file
+     * @param string $file
      *
      * @return void
      */
-    public function loadCss($file)
+    public function loadCss(string $file)
     {
         if (!is_array($_SESSION['css']['file']))
             $_SESSION['css']['file'] = array();

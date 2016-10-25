@@ -54,9 +54,9 @@ class GlobalConfig
     /**
      * Get the singleton instance.
      *
-     * @return GlobalConfig
+     * @return self
      */
-    public static function getInstance()
+    public static function getInstance(): self
     {
         if (!self::$globalConfig)
         {

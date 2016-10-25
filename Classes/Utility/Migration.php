@@ -225,7 +225,7 @@ HTML;
      *
      * @return string
      */
-    protected function setApplyStatus(array $post,  array$migrationFiles): string
+    protected function setApplyStatus(array $post,  array $migrationFiles): string
     {
         $webPath = $this->globalConfig->getConfig('dir_ws_migrations');
 

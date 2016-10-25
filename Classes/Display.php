@@ -187,43 +187,55 @@ class Display
     }
 
     /**
-     * Add one or more pages to the list of unallowed pages.
+     * Add multiple pages to the list of unallowed pages.
      *
-     * @param array|string $pageNames
+     * @param array $pageNames
      *
      * @return void
      */
-    public function addUnallowedPages($pageNames)
+    public function addUnallowedPages(array $pageNames)
     {
-        if (is_array($pageNames))
-        {
-            $this->unallowedPages += $pageNames;
-        }
-        else
-        {
-            $this->unallowedPages += array($pageNames);
-        }
+        $this->unallowedPages += $pageNames;
     }
 
     /**
-     * Remove one or more pages from the list of unallowed pages.
+     * Add a single page to the list of unallowed pages.
      *
-     * @param array|string $pageNames
+     * @param string $pageName
      *
      * @return void
      */
-    public function removeUnallowedPages($pageNames)
+    public function addUnallowedPage(string $pageName)
     {
-        if (!is_array($pageNames))
-        {
-            $pageNames = array($pageNames);
-        }
+        $this->addUnallowedPages(array($pageName));
+    }
 
+    /**
+     * Remove multiple pages from the list of unallowed pages.
+     *
+     * @param array $pageNames
+     *
+     * @return void
+     */
+    public function removeUnallowedPages(array $pageNames)
+    {
         foreach ($pageNames as $pageName)
         {
             $index = array_search($pageName, $this->unallowedPages);
             unset($this->unallowedPages[$index]);
         }
+    }
+
+    /**
+     * Remove a single page from the list of unallowed pages.
+     *
+     * @param string $pageName
+     *
+     * @return void
+     */
+    public function removeUnallowedPage(string $pageName)
+    {
+        $this->removeUnallowedPages(array($pageName));
     }
 
     /**

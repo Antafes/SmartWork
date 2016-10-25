@@ -49,7 +49,7 @@ class General
      *
      * @param string $name
      *
-     * @return boolean
+     * @return bool
      */
     public static function classLoad(string $name): bool
     {

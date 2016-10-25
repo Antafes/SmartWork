@@ -58,7 +58,7 @@ abstract class Model
      *
      * @return void
      */
-    public function fill($data)
+    public function fill(array $data)
     {
         foreach ($data as $key => $value)
         {
@@ -76,7 +76,7 @@ abstract class Model
      *
      * @return mixed
      */
-    protected function castToType($value)
+    protected function castToType(string $value)
     {
         if (is_numeric($value))
         {
