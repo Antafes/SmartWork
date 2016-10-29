@@ -52,12 +52,16 @@ class Template
      */
     function __construct()
     {
+        $globalConfig = GlobalConfig::getInstance();
         $this->smarty = new \Smarty();
         $this->smarty->addTemplateDir(array(
-            'templates/',
+            $globalConfig->getConfig('dir_fs_system') . '/templates/',
+            $globalConfig->getConfig('dir_fs_system') . '/Templates/',
+            $globalConfig->getConfig('dir_fs_system') . '/Layouts/',
             __DIR__.'/../templates/',
+            __DIR__.'/../Templates/',
+            __DIR__.'/../Layouts/',
         ));
-        $globalConfig = GlobalConfig::getInstance();
 
         if ($globalConfig->getConfig('useModules'))
         {
@@ -66,6 +70,8 @@ class Template
                 $this->smarty->addTemplateDir(array(
                     $globalConfig->getConfig('dir_fs_system') . '/../Modules/' . $module . '/Templates/',
                     __DIR__ . '/../Modules/' . $module . '/Templates/',
+                    $globalConfig->getConfig('dir_fs_system') . '/../Modules/' . $module . '/Layouts/',
+                    __DIR__ . '/../Modules/' . $module . '/Layouts/',
                 ));
             }
         }

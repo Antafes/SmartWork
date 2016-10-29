@@ -1,4 +1,5 @@
-{include file="header.tpl"}
+{extends file="base.tpl"}
+{block name="body"}
 <div id="register">
     {if $error}
         <div class="error">{$error}</div>
@@ -41,4 +42,4 @@
         </table>
     </form>
 </div>
-{include file="footer.tpl"}
+{/block}

@@ -1,4 +1,5 @@
-{include file="header.tpl"}
+{extends file="base.tpl"}
+{block name="body"}
 <div id="imprint">
     <div class="row">
         <h2>{$translator->gt('imprint')}</h2>
@@ -16,4 +17,4 @@
         {/foreach}
     </div>
 </div>
-{include file="footer.tpl"}
+{/block}

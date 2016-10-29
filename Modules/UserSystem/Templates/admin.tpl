@@ -1,4 +1,5 @@
-{include file="header.tpl"}
+{extends file="base.tpl"}
+{block name="body"}
 <div id="admin">
     <table class="collapse">
         <thead>
@@ -39,4 +40,4 @@
         </tbody>
     </table>
 </div>
-{include file="footer.tpl"}
+{/block}
