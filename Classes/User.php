@@ -82,6 +82,7 @@ class User
                 `name`,
                 password,
                 email,
+                `languageId`,
                 active,
                 `admin`
             FROM users
@@ -95,6 +96,7 @@ class User
         $object->name          = $userData['name'];
         $object->password      = $userData['password'];
         $object->email         = $userData['email'];
+        $object->languageId    = $userData['languageId'];
         $object->admin         = !!$userData['admin'];
         $object->orderDuration = $userData['orderDuration'];
         $object->active        = !!$userData['active'];
@@ -180,7 +182,10 @@ class User
                 password = ' . Database::sqlval(
                     self::encryptPassword($password, uniqid())
                 ) . ',
-                email = ' . Database::sqlval($email) . '
+                email = ' . Database::sqlval($email) . ',
+                `languageId` = ' . Database::sqlval(
+                    Translator::getInstance()->getCurrentLanguage()
+                ) . '
         ';
         return Database::query($sql);
     }

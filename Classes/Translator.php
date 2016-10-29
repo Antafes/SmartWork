@@ -77,7 +77,8 @@ class Translator
         if (!self::$translator)
         {
             $translator = new self();
-            $translator->setCurrentLanguage($_COOKIE['language']);
+            // This is called to automatically fetch the current language.
+            $translator->getCurrentLanguage();
             self::$translator = $translator;
         }
 
@@ -315,7 +316,7 @@ class Translator
             $languageId = $language->getLanguageId();
         }
 
-        return $languageId;
+        return (int) $languageId;
     }
 
     /**
