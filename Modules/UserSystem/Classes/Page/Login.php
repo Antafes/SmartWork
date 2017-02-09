@@ -58,7 +58,7 @@ class Login extends \SmartWork\Page
 	 *
 	 * @return void
 	 */
-	protected function logIn(string $username, string $password, string $salt)
+	protected function logIn($username, $password, $salt)
 	{
 		if (!$salt || $salt != $_SESSION['formSalts']['login'])
         {
