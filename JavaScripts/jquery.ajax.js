@@ -28,9 +28,11 @@
 (function($) {
     $.widget('sw.ajax', {
         options: {
+            target: '',
             ajaxParameter: 'ajax',
             success: function () {},
-            error: function () {}
+            error: function () {},
+            sendCallback: function () {}
         },
 
         /**
@@ -54,19 +56,26 @@
         _getTarget: function () {
             var url = document.createElement('a');
 
-            if (this.element.attr('href'))
+            if (this.options.target)
             {
-                url.href = this.element.attr('href');
+                url.href = this.options.target;
             }
-
-            if (this.element.attr('src'))
+            else
             {
-                url.href = this.element.attr('src');
-            }
+                if (this.element.attr('href'))
+                {
+                    url.href = this.element.attr('href');
+                }
 
-            if (url.href === '')
-            {
-                console.error('No target found!');
+                if (this.element.attr('src'))
+                {
+                    url.href = this.element.attr('src');
+                }
+
+                if (url.href === '')
+                {
+                    console.error('No target found!');
+                }
             }
 
             if (url.search.search(this.options.ajaxParameter) === -1)
@@ -91,9 +100,10 @@
          */
         _addListener: function () {
             this.element.on('click.a touch.a', $.proxy(function (event) {
+                var data = {};
                 event.preventDefault();
 
-                this._sendAjaxRequest();
+                this._sendAjaxRequest($.extend(data, this.options.sendCallback(this.element)));
             }, this));
         },
 
@@ -102,10 +112,11 @@
          *
          * @returns {void}
          */
-        _sendAjaxRequest: function () {
+        _sendAjaxRequest: function (data) {
             $.ajax(
                 this._config.target,
                 {
+                    data: data,
                     success: $.proxy(function (results) {
                         this.options.success(this.element, results);
                     }, this),
