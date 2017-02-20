@@ -402,7 +402,7 @@ class User
      */
     public function lostPassword()
     {
-        $translator = \Translator::getInstance();
+        $translator = Translator::getInstance();
         $password = $this->generatePassword();
         $passwordParts = explode('$', $this->password);
         $sql = '
