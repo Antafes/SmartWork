@@ -414,7 +414,7 @@ class User
         ';
         Database::query($sql);
 
-        \Helper\Mail::send(
+        Helper\Mail::send(
             array($this->email, $this->name),
             $translator->gt('lostPasswordSubject'),
             str_replace(
