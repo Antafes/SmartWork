@@ -19,13 +19,13 @@ Modules
 As of version 1.1 a module system has been added.
 The following modules are activated by default:
 - Base
- - This module only contains the database entries for the translation system.
+  - This module only contains the database entries for the translation system.
 - Index
- - This module contains a basic index page to start with.
+  - This module contains a basic index page to start with.
 - UserSystem
- - This module contains a user system with login, registration and administration.
+  - This module contains a user system with login, registration and administration.
 - Imprint
- - This module contains an imprint page fetching the information to show from the config.
+  - This module contains an imprint page fetching the information to show from the config.
 
 Every page/class/etc. that is in the SmartWork modules can be overridden by self defined
 modules or in the case of the pages normal pages also can override them.
