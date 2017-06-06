@@ -496,16 +496,19 @@ HTM;
         ';
         $data = Database::query($sql, true);
 
-        foreach ($data as $file)
+        if (!empty($data))
         {
-            if (substr($file['filename'], 0, 10) !== substr($migrationFilesDir, 0, 10))
+            foreach ($data as $file)
             {
-                $sql = '
-                    UPDATE db_migrations
-                    SET filename = ' . Database::sqlval($migrationFilesDir . $file['filename']) . '
-                    WHERE filename = ' . Database::sqlval($file['filename']) . '
-                ';
-                Database::query($sql);
+                if (substr($file['filename'], 0, 10) !== substr($migrationFilesDir, 0, 10))
+                {
+                    $sql = '
+                        UPDATE db_migrations
+                        SET filename = ' . Database::sqlval($migrationFilesDir . $file['filename']) . '
+                        WHERE filename = ' . Database::sqlval($file['filename']) . '
+                    ';
+                    Database::query($sql);
+                }
             }
         }
     }
