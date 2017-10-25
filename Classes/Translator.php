@@ -21,7 +21,6 @@
  * @license   https://www.gnu.org/licenses/lgpl.html LGPLv3
  */
 namespace SmartWork;
-use \SmartWork\Utility\Database;
 
 /**
  * Translator class
@@ -59,10 +58,16 @@ class Translator
     protected $translations;
 
     /**
+     * @var Utility\DB
+     */
+    protected $db;
+
+    /**
      * Constructor
      */
     private function __construct()
     {
+        $this->db = new Utility\DB();
         $this->fillLanguages();
         $this->fillTranslations();
     }
@@ -103,11 +108,11 @@ class Translator
 
         $sql = '
             INSERT INTO translations
-            SET languageId = ' . Database::sqlval($language) . ',
-                `key` = ' . Database::sqlval($key) . ',
-                `value` = ' . Database::sqlval($value) . '
+            SET languageId = ' . $this->db->sqlval($language) . ',
+                `key` = ' . $this->db->sqlval($key) . ',
+                `value` = ' . $this->db->sqlval($value) . '
         ';
-        $translationId = Database::query($sql);
+        $translationId = $this->db->execute($sql);
 
         if ($translationId)
         {
@@ -123,12 +128,7 @@ class Translator
      */
     protected function fillLanguages()
     {
-        $sql = '
-            SELECT languageId
-            FROM languages
-            WHERE !deleted
-        ';
-        $languages = Database::query($sql, true);
+        $languages = $this->db->fetchMultipleWithWhere('languages', '!deleted', array('languageId'));
 
         foreach ($languages as $language)
         {
@@ -151,10 +151,10 @@ class Translator
             $sql = '
                 SELECT `key`, `value`
                 FROM translations
-                WHERE languageId = ' . Database::sqlval($language->getLanguageId()) . '
+                WHERE languageId = ' . $this->db->sqlval($language->getLanguageId()) . '
                     AND !deleted
             ';
-            $translations = Database::query($sql, true);
+            $translations = $this->db->execute($sql, true);
 
             foreach ($translations as $translation)
             {

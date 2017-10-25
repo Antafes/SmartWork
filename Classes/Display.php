@@ -29,7 +29,7 @@ namespace SmartWork;
  * @author  Marian Pollzien <map@wafriv.de>
  * @license https://www.gnu.org/licenses/lgpl.html LGPLv3
  */
-class Display
+class Display extends Base
 {
     /**
      * The global config object.
@@ -64,6 +64,7 @@ class Display
      */
     function __construct(array $unallowedPages = array())
     {
+        parent::__construct();
         $this->globalConfig = GlobalConfig::getInstance();
         $this->unallowedPages = array_merge($unallowedPages, $this->unallowedPages);
         $globalUnallowedPages = $this->globalConfig->getConfig(
@@ -126,6 +127,25 @@ class Display
             if (class_exists('\\Page\\Header'))
             {
                 $header = new \Page\Header($page->getTemplate());
+            }
+            elseif ($this->globalConfig->getConfig('useModules')
+                && !class_exists($class)
+            )
+            {
+                foreach ($this->globalConfig->getConfig('modules') as $module)
+                {
+                    if (class_exists('\\' . $module . '\\Page\\Header'))
+                    {
+                        $class = '\\' . $module . '\\Page\\Header';
+                        break;
+                    }
+
+                    if (class_exists('\\SmartWork\\' . $module . '\\Page\\Header'))
+                    {
+                        $class = '\\SmartWork\\' . $module . '\\Page\\Header';
+                        break;
+                    }
+                }
             }
             else
             {

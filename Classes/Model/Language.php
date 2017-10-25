@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of SmartWork.
  *
@@ -22,7 +23,8 @@
  * @license    https://www.gnu.org/licenses/lgpl.html LGPLv3
  */
 namespace SmartWork\Model;
-use \SmartWork\Utility\Database;
+
+use SmartWork\Utility\DB;
 
 /**
  * Model class for the languages used with SmartWork.
@@ -58,12 +60,8 @@ class Language extends \SmartWork\Model
      */
     public static function getLanguageByIso2Code(string $iso2code): self
     {
-        $sql = '
-            SELECT languageId, language, iso2code
-            FROM languages
-            WHERE iso2code = ' . Database::sqlval($iso2code) . '
-        ';
-        $data = Database::query($sql);
+        $db = new DB();
+        $data = $db->fetchWithWhere('languages', 'iso2code = ' . $db->sqlval($iso2code));
         $language = new self();
         $language->fill($data);
 
@@ -79,15 +77,8 @@ class Language extends \SmartWork\Model
      */
     public static function loadById(int $id)
     {
-        $sql = '
-            SELECT
-                languageId,
-                language,
-                iso2code
-            FROM languages
-            WHERE languageId = ' . Database::sqlval($id) . '
-        ';
-        $data = Database::query($sql);
+        $db = new DB();
+        $data = $db->fetch('languages', $id);
         $language = new self();
         $language->fill($data);
 

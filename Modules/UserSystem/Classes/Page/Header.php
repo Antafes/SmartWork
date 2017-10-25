@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 /**
  * This file is part of SmartWork.
  *
@@ -22,9 +21,7 @@ declare(strict_types=1);
  * @copyright  (c) 2015, Marian Pollzien
  * @license    https://www.gnu.org/licenses/lgpl.html LGPLv3
  */
-namespace SmartWork\Page;
-
-use \SmartWork\Template;
+namespace SmartWork\UserSystem\Page;
 
 /**
  * Description of Header
@@ -34,46 +31,8 @@ use \SmartWork\Template;
  * @author     Marian Pollzien <map@wafriv.de>
  * @license    https://www.gnu.org/licenses/lgpl.html LGPLv3
  */
-class Header extends \SmartWork\Page
+class Header extends \SmartWork\Page\Header
 {
-    /**
-     * Constructor
-     *
-     * @param \SmartWork\Template $template
-     */
-    public function __construct(Template $template)
-    {
-        parent::__construct($template->getTemplate());
-    }
-
-    /**
-     * Add css and javascript files.
-     * Load the translations for javascripts.
-     * Create the menu.
-     *
-     * @return void
-     */
-    public function process()
-    {
-        // Add basic CSS files
-        $this->template->loadCss('common');
-        $this->template->loadCss('jquery-ui');
-
-        // Add JS files
-        $this->template->loadJs('jquery-2.1.4');
-        $this->template->loadJs('jquery-ui');
-
-        // Add the language entries for JavaScripts
-        $this->template->assign(
-            array(
-                'translations' => json_encode($this->template->getTranslator()->getAsArray()),
-                'languageCode' => $this->template->getTranslator()->getCurrentLanguageObject()->getIso2code(),
-            )
-        );
-
-        $this->createMenu();
-    }
-
     /**
      * Check whether a user is logged in and if the user has admin privileges.
      *
@@ -96,10 +55,44 @@ class Header extends \SmartWork\Page
         $pages = array();
         foreach ($configPages as $page)
         {
-            $pages[] = $page + array(
-                'key' => strtolower($page['page']),
-                'active' => $_GET['page'] == $page['page'],
-            );
+            if ($page['show'] === -1 || (!$useModules && $page['show'] !== 2))
+            {
+                $pages[] = $page + array(
+                    'key' => strtolower($page['page']),
+                    'active' => !$_GET['page'] && $page['default'] === -1 || $_GET['page'] == $page['page'],
+                );
+                continue;
+            }
+
+            if ($useModules && $userSystemActive)
+            {
+                if ($_SESSION['userId'] && $page['show'] === 1)
+                {
+                    $pages[] = $page + array(
+                        'key' => strtolower($page['page']),
+                        'active' => !$_GET['page'] && $page['default'] === 1 || $_GET['page'] == $page['page'],
+                    );
+                    continue;
+                }
+
+                if (!$_SESSION['userId'] && $page['show'] === 0)
+                {
+                    $pages[] = $page + array(
+                        'key' => strtolower($page['page']),
+                        'active' => !$_GET['page'] && $page['default'] === 0 || $_GET['page'] == $page['page'],
+                    );
+                    continue;
+                }
+
+                if ($_SESSION['userId'] && $user->getAdmin() && $page['show'] === 2)
+                {
+                    $pages[] = $page + array(
+                        'key' => strtolower($page['page']),
+                        'active' => !$_GET['page'] && $page['default'] === 2 || $_GET['page'] == $page['page'],
+                    );
+                    continue;
+                }
+            }
         }
 
         $this->getTemplate()->assign('pages', $pages);

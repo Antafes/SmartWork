@@ -21,8 +21,6 @@
  * @license   https://www.gnu.org/licenses/lgpl.html LGPLv3
  */
 require_once(__DIR__.'/Classes/Utility/General.php');
-// This is only for fallback.
-require_once(__DIR__.'/util/general.php');
 
 //access data for the database
 $GLOBALS['db'] = array(
@@ -50,6 +48,7 @@ $GLOBALS['config']['dir_fs_system'] = __DIR__;
 
 //mail
 $GLOBALS['mail']['sender'] = 'test@test.org';
+$GLOBALS['mail']['admin'] = 'admin@test.org';
 
 $GLOBALS['config']['unAllowedPages'] = array(
     'Header',
@@ -125,4 +124,16 @@ elseif (file_exists(__DIR__.'/../config.php'))
 }
 
 //autoloader
-spl_autoload_register('\\SmartWork\\Utility\\General::classLoad');
+//spl_autoload_register('\\SmartWork\\Utility\\General::classLoad');
+if (file_exists(__DIR__.'/vendor/autoload.php'))
+{
+    require_once __DIR__.'/vendor/autoload.php';
+}
+elseif (file_exists(__DIR__.'/../../autoload.php'))
+{
+    require_once __DIR__.'/../../autoload.php';
+}
+else
+{
+    throw new Error("Use composer install to fetch Smarty and every other dependency!", 1);
+}

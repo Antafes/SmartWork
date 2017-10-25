@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of SmartWork.
  *
@@ -408,7 +409,7 @@ HTM;
     protected function isMigrationsInitialized(): bool
     {
         $sql = 'SHOW TABLES LIKE "db_migrations"';
-        return !!Database::query($sql);
+        return !!$this->db->execute($sql);
     }
 
     /**
@@ -426,7 +427,7 @@ HTM;
             )
             COLLATE="utf8_general_ci"
         ';
-        Database::query($sql);
+        $this->db->execute($sql);
     }
 
     /**
@@ -441,9 +442,9 @@ HTM;
         $sql = '
             SELECT IF (`status` = "applied", 1, 0)
             FROM `db_migrations`
-            WHERE `filename` = ' . Database::sqlval($filename) . '
+            WHERE `filename` = ' . $this->db->sqlval($filename) . '
         ';
-        return !!Database::query($sql);
+        return !!$this->db->execute($sql);
     }
 
     /**
@@ -457,11 +458,11 @@ HTM;
     {
         $sql = '
             INSERT INTO `db_migrations`
-            SET `filename` = ' . Database::sqlval($filename) . ',
+            SET `filename` = ' . $this->db->sqlval($filename) . ',
                 `status` = "applied"
             ON DUPLICATE KEY UPDATE `status` = VALUES(status)
         ';
-        Database::query($sql);
+        $this->db->execute($sql);
     }
 
     /**
@@ -476,9 +477,9 @@ HTM;
         $sql = '
             UPDATE `db_migrations`
             SET `status` = "unapplied"
-            WHERE `filename` = ' . Database::sqlval($filename) . '
+            WHERE `filename` = ' . $this->db->sqlval($filename) . '
         ';
-        Database::query($sql);
+        $this->db->execute($sql);
     }
 
     /**
@@ -494,7 +495,7 @@ HTM;
             SELECT filename
             FROM db_migrations
         ';
-        $data = Database::query($sql, true);
+        $data = $this->db->execute($sql, true);
 
         foreach ($data as $file)
         {
@@ -502,10 +503,10 @@ HTM;
             {
                 $sql = '
                     UPDATE db_migrations
-                    SET filename = ' . Database::sqlval($migrationFilesDir . $file['filename']) . '
-                    WHERE filename = ' . Database::sqlval($file['filename']) . '
+                    SET filename = ' . $this->db->sqlval($migrationFilesDir . $file['filename']) . '
+                    WHERE filename = ' . $this->db->sqlval($file['filename']) . '
                 ';
-                Database::query($sql);
+                $this->db->execute($sql);
             }
         }
     }

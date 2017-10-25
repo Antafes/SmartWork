@@ -29,7 +29,7 @@ namespace SmartWork;
  * @author  Marian Pollzien <map@wafriv.de>
  * @license https://www.gnu.org/licenses/lgpl.html LGPLv3
  */
-abstract class Model
+abstract class Model extends Base
 {
     /**
      * Load the model by a given id.
@@ -70,26 +70,15 @@ abstract class Model
     }
 
     /**
-     * Cast the value to the best matching type. Currently only float and integer are recognized.
+     * Cast the value to the best matching type.
      *
-     * @param string $value
+     * @param mixed $value
      *
      * @return mixed
+     * @deprecated since version 3.0 will be removed with 4.0
      */
-    protected function castToType(string $value)
+    protected function castToType($value)
     {
-        if (is_numeric($value))
-        {
-            if (stripos($value, '.') !== false)
-            {
-                return \floatval($value);
-            }
-            else
-            {
-                return \intval($value);
-            }
-        }
-
         return $value;
     }
 }

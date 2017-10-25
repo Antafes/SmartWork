@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of SmartWork.
  *
@@ -28,16 +29,10 @@ namespace SmartWork\Utility;
  * @package    SmartWork
  * @subpackage Utility
  * @author     Marian Pollzien <map@wafriv.de>
+ * @deprecated since version 3.0, use DatabaseNew instead
  */
 class Database
 {
-    /**
-     * Static variable for holding the database connection.
-     *
-     * @var \mysqli
-     */
-    protected static $mysql;
-
     /**
      * Handles the MySQL queries.
      * If the query is a select, it returns an array if there is only one value, otherwise it
@@ -54,131 +49,8 @@ class Database
      */
     public static function query(string $sql, bool $noTransform = false, bool $raw = false)
     {
-        global $debug;
-
-        $mysql = self::connect();
-
-        $trimmedSql = ltrim($sql);
-        $res = $mysql->query($trimmedSql);
-
-        if (!$res && $debug)
-        {
-            $backtrace = debug_backtrace();
-            $html = <<<HTML
-<br />Datenbank Fehler $mysql->error<br /><br />
-$trimmedSql<br />
-<table>
-HTML;
-
-            foreach ($backtrace as $part)
-            {
-                $html .= <<<HTML
-<tr>
-    <td width="100">
-        File:
-    </td>
-    <td>
-        {$part['file']} in line {$part['line']}
-    </td>
-</tr>
-<tr>
-    <td>
-        Function:
-    </td>
-    <td>
-        {$part['function']}
-    </td>
-</tr>
-<tr>
-    <td>
-        Arguments:
-    </td>
-    <td>
-HTML;
-
-                foreach ($part['args'] as $args)
-                {
-                    $html .= $args.', ';
-                }
-
-                $html = \substr($html, 0, -2);
-                $html .= '</td></tr>';
-            }
-
-            $html .= '</table>';
-            die($html);
-        }
-
-        if ($res || is_object($res))
-        {
-            if (substr($trimmedSql,0,6) == "SELECT" || substr($trimmedSql, 0, 4) == 'SHOW')
-            {
-                $out = array();
-
-                if ($res->num_rows > 1 || ($noTransform && $res->num_rows > 0))
-                {
-                    if (method_exists('mysqli_result', 'fetch_all'))
-                    {
-                        $out = $res->fetch_all(MYSQLI_ASSOC);
-                    }
-                    else
-                    {
-                        while ($row = $res->fetch_assoc())
-                        {
-                            $out[] = $row;
-                        }
-                    }
-                }
-                elseif ($res->num_rows == 1 && !$noTransform)
-                {
-                    $out = $res->fetch_assoc();
-
-                    if (count($out) == 1)
-                    {
-                        $out = current($out);
-                    }
-                }
-                else
-                {
-                    $out = false;
-                }
-
-                return $out;
-            }
-
-            if (substr($trimmedSql,0,6) == "INSERT" && $noTransform == false)
-            {
-                return $mysql->insert_id;
-            }
-            elseif (substr($trimmedSql,0,6) == "INSERT" && $noTransform == true)
-            {
-                return $mysql->affected_rows;
-            }
-
-            if (substr($trimmedSql,0,6) == "UPDATE")
-            {
-                return $mysql->affected_rows;
-            }
-
-            if (substr($trimmedSql,0,7) == "REPLACE")
-            {
-                return $mysql->affected_rows;
-            }
-
-            if (substr($trimmedSql,0,11) == "DELETE FROM")
-            {
-                return $mysql->affected_rows;
-            }
-
-            if ($raw)
-            {
-                return $res;
-            }
-        }
-        else
-        {
-            return false;
-        }
+        $db = new DB();
+        return $db->execute($sql, $noTransform, $raw);
     }
 
     /**
@@ -190,11 +62,13 @@ HTML;
      */
     public static function query_raw(string $sql)
     {
-        return self::query($sql, false, true);
+        $db = new DB();
+        return $db->execute($sql, false, true);
     }
 
     /**
-     * Let the Transaction begin
+     * Let the transaction begin.
+     * This is only used if transations for mysql is active.
      *
      * @return void
      */
@@ -204,7 +78,8 @@ HTML;
     }
 
     /**
-     * Save Changes on Database
+     * Save changes on database.
+     * This is only used if transations for mysql is active.
      *
      * @return void
      */
@@ -214,7 +89,8 @@ HTML;
     }
 
     /**
-     * Rollback Changes
+     * Rollback changes.
+     * This is only used if transations for mysql is active.
      *
      * @return void
      */
@@ -230,75 +106,19 @@ HTML;
      * @param mixed $value
      * @param bool  $wrap
      *
-     * @return string
+     * @return string|array
      */
-    public static function sqlval($value, bool $wrap = true): string
+    public static function sqlval($value, bool $wrap = true)
     {
-        $mysql = self::connect();
+        $db = new DB();
 
         if (is_array($value))
         {
-            foreach ($value as &$row)
-            {
-                $row = sqlval($row, $wrap);
-            }
-            unset($row);
-
-            return $value;
+            return $db->sqlvalMultiple($value, $wrap);
         }
         else
         {
-            $escapedString = '';
-
-            if ($wrap)
-            {
-                $escapedString .= '"';
-            }
-
-            $escapedString .= $mysql->real_escape_string($value);
-
-            if ($wrap)
-            {
-                $escapedString .= '"';
-            }
-
-            return $escapedString;
+            return $db->sqlval($value, $wrap);
         }
-    }
-
-    /**
-     * Handles the MySQL connection.
-     * Should only be used in sqlval() and query()
-     *
-     * @return mysqli
-     */
-    protected static function connect(): \mysqli
-    {
-        if (!is_object(self::$mysql))
-        {
-            $globalConfig = \SmartWork\GlobalConfig::getInstance();
-            $dbConfig = $globalConfig->getGlobal('db');
-            self::$mysql = new \mysqli($dbConfig['server'], $dbConfig['user'], $dbConfig['password']);
-
-            if (self::$mysql->connect_error)
-            {
-                echo 'No database found. Please contact <br /><a href=\"mailto:admin@dynasty-wars.de\">admin@wafriv.de</a>';
-                exit;
-            }
-            else
-            {
-                self::$mysql->set_charset($dbConfig['charset']);
-                self::$mysql->select_db($dbConfig['db']);
-            }
-        }
-
-        $timezone = self::$mysql->query('SELECT @@session.time_zone');
-
-        if ($timezone == 'SYSTEM')
-        {
-            self::$mysql->query('SET time_zone = "+00:00"');
-        }
-
-        return self::$mysql;
     }
 }

@@ -29,7 +29,7 @@ namespace SmartWork;
  * @author  Marian Pollzien <map@wafriv.de>
  * @license https://www.gnu.org/licenses/lgpl.html LGPLv3
  */
-abstract class Page
+abstract class Page extends Base
 {
     /**
      * @var \SmartWork\Template
@@ -48,8 +48,9 @@ abstract class Page
      *
      * @param string $template
      */
-    function __construct(string $template)
+    public function __construct(string $template)
     {
+        parent::__construct();
         $this->template = new \SmartWork\Template();
         $this->template->setTemplate($template);
     }

@@ -29,7 +29,7 @@ namespace SmartWork;
  * @author  Marian Pollzien <map@wafriv.de>
  * @license https://www.gnu.org/licenses/lgpl.html LGPLv3
  */
-abstract class Listing
+abstract class Listing extends Base
 {
     /**
      * @var array

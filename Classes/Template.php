@@ -29,7 +29,7 @@ namespace SmartWork;
  * @author  Marian Pollzien <map@wafriv.de>
  * @license https://www.gnu.org/licenses/lgpl.html LGPLv3
  */
-class Template
+class Template extends Base
 {
     /**
      * @var \Smarty
@@ -52,6 +52,7 @@ class Template
      */
     function __construct()
     {
+        parent::__construct();
         $globalConfig = GlobalConfig::getInstance();
         $this->smarty = new \Smarty();
         $this->smarty->addTemplateDir(array(
@@ -98,6 +99,15 @@ class Template
         return $this->smarty;
     }
 
+    /**
+     * Get the template.
+     *
+     * @return string
+     */
+    function getTemplate(): string
+    {
+        return $this->template;
+    }
     /**
      * Set the template to use.
      *

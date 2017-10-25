@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of SmartWork.
  *
@@ -54,17 +55,6 @@ class General
     public static function classLoad(string $name): bool
     {
         $dirFsSystem = $GLOBALS['config']['dir_fs_system'];
-        if ($name == 'Smarty')
-        {
-            require_once($dirFsSystem . '/smarty3/Smarty.class.php');
-            return true;
-        }
-        elseif ($name == 'PHPMailer')
-        {
-            require_once($dirFsSystem . '/phpmailer/class.phpmailer.php');
-            return true;
-        }
-
         $dirs = array($dirFsSystem . '/../Classes/');
 
         if ($GLOBALS['config']['useModules'])
