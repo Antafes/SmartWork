@@ -38,7 +38,7 @@ if ($_GET['language'])
     $translator = \SmartWork\Translator::getInstance();
     $translator->setCurrentLanguage($_GET['language']);
 
-    \SmartWork\Utility\General::redirect('index.php?page='.$page);
+    \SmartWork\Utility\General::redirect('index.php?page=' . $page);
 }
 
 $display->showPage($page);
