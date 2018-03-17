@@ -195,4 +195,16 @@ class General
         $menu[9999] = $imprint;
         $GLOBALS['config']['menu'] = $menu;
     }
+
+    /**
+     * Set whether languages are used or not.
+     *
+     * @param bool $use
+     *
+     * @return void
+     */
+    public static function useLanguages(bool $use): void
+    {
+        $GLOBALS['config']['useLanguages'] = $use;
+    }
 }

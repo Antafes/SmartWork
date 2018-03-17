@@ -82,7 +82,7 @@ $GLOBALS['config']['menu'] = array(
         'show' => 1,
         'default' => 1,
     ),
-    array(
+    9997 => array(
         'page' => 'Admin',
         'show' => 2,
     ),
@@ -95,6 +95,7 @@ $GLOBALS['config']['menu'] = array(
         'show' => -1,
     ),
 );
+$GLOBALS['config']['useLanguages'] = false;
 
 // Imprint configuration
 // This is an array of arrays with the following structure:

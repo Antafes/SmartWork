@@ -23,6 +23,12 @@
  */
 namespace SmartWork\Page;
 
+use SmartWork\GlobalConfig;
+use SmartWork\Page;
+use SmartWork\Template;
+use SmartWork\User;
+use SmartWork\Utility\Url;
+
 /**
  * Description of EsHeader
  *
@@ -31,14 +37,14 @@ namespace SmartWork\Page;
  * @author     Marian Pollzien <map@wafriv.de>
  * @license    https://www.gnu.org/licenses/lgpl.html LGPLv3
  */
-class Header extends \SmartWork\Page
+class Header extends Page
 {
     /**
      * Constructor
      *
-     * @param \SmartWork\Template $template
+     * @param Template $template
      */
-    public function __construct(\SmartWork\Template $template)
+    public function __construct(Template $template)
     {
         $this->template = $template;
     }
@@ -78,15 +84,19 @@ class Header extends \SmartWork\Page
      */
     protected function createMenu()
     {
-        $globalConfig = \SmartWork\GlobalConfig::getInstance();
+        $globalConfig = GlobalConfig::getInstance();
         $useModules = $globalConfig->getConfig('useModules');
         $userSystemActive = in_array('UserSystem', $globalConfig->getConfig('modules'));
+        $useLanguages = $globalConfig->getConfig('useLanguages');
         $configPages = $globalConfig->getConfig('menu');
         ksort($configPages);
 
+        $this->getTemplate()->assign('useLanguages', $useLanguages);
+        $this->getTemplate()->assign('getParameters', $_GET);
+
         if ($_SESSION['userId'])
         {
-            $user = \SmartWork\User::getUserById($_SESSION['userId']);
+            $user = User::getUserById($_SESSION['userId']);
             $this->template->assign('isAdmin', $user->getAdmin());
         }
 
