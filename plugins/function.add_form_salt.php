@@ -38,17 +38,21 @@
  * @author friend8 <map@wafriv.de>
  * @version  1.0
  * @param array $params
- * @param Smarty_Internal_Template $template
+ * @param Smarty_Internal_Template $smarty
  */
 function smarty_function_add_form_salt($params, $smarty)
 {
     if (!in_array('formName', array_keys($params)))
-        $smarty->trigger_error('explode: missing "formName" parameter');
+    {
+        trigger_error('explode: missing "formName" parameter');
+    }
 
     $prefix = '';
 
     if ($params['prefix'])
+    {
         $prefix = $params['prefix'].'_';
+    }
 
     $id = uniqid($prefix);
     $_SESSION['formSalts'][$params['formName']] = $id;
