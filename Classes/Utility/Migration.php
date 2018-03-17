@@ -117,6 +117,7 @@ class Migration
         else
         {
             $this->initializeMigration();
+            return $this->manager($post);
         }
     }
 
